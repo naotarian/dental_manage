@@ -54,7 +54,7 @@ export default function SignUp(props) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            新規アカウント作成
+            管理新規アカウント作成
           </Typography>
           <Box noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>

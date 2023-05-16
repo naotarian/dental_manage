@@ -50,7 +50,7 @@ export default function SignIn(props) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            ログイン
+            管理ログイン
           </Typography>
           <Box noValidate sx={{ mt: 1 }}>
             <TextField

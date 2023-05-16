@@ -6,13 +6,12 @@ import { useRouter } from 'next/router'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter()
 
-  const { data: user, error, revalidate } = useSWR('/api/user', () =>
+  const { data: user, error, revalidate } = useSWR('/api/admin/user', () =>
     axios
-      .get('/api/user')
+      .get('/api/admin/user')
       .then(res => res.data)
       .catch(error => {
-        if (error.response.status != 409) throw error
-
+        if (error.response.status != 409) return false
         router.push('/verify-email')
       }),
   )
@@ -23,12 +22,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     await csrf()
 
     setErrors([])
-
+console.log(props)
     axios
-      .post('/register', props)
+      .post('/manages/register', props)
       .then(res => {
         revalidate()
-        console.log(res.data)
         if (res.data) setErrors(res.data)
       })
       .catch(error => {
@@ -45,7 +43,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     setErrors([])
 
     axios
-      .post('/login', props)
+      .post('/manages/login', props)
       .then(() => revalidate())
       .catch(error => {
         if (error.response.status != 422) throw error
@@ -61,7 +59,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     setErrors([])
 
     axios
-      .post('/forgot-password', { email })
+      .post('/manages/forgot-password', { email })
       .then(response => setStatus(response.data.status))
       .catch(error => {
         if (error.response.status != 422) throw error
@@ -77,7 +75,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     setErrors([])
 
     axios
-      .post('/reset-password', { token: router.query.token, ...props })
+      .post('/manages/reset-password', { token: router.query.token, ...props })
       .then(response =>
         router.push('/login?reset=' + btoa(response.data.status)),
       )
@@ -90,13 +88,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   const resendEmailVerification = ({ setStatus }) => {
     axios
-      .post('/email/verification-notification')
+      .post('/admin/email/verification-notification')
       .then(response => setStatus(response.data.status))
   }
 
   const logout = async () => {
     if (!error) {
-      await axios.post('/logout')
+      await axios.post('/manages/logout')
 
       revalidate()
     }
@@ -108,6 +106,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     if (middleware == 'guest' && redirectIfAuthenticated && user)
       router.push(redirectIfAuthenticated)
     if (middleware == 'auth' && error) logout()
+    // if (middleware == 'guest' && !user) router.push('/login')
   }, [user, error])
 
   return {

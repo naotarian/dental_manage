@@ -1,7 +1,7 @@
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 //components
-import SignUp from '../components/Auth/SignUp'
+import SignUp from '@/components/Auth/SignUp'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import styled from 'styled-components'
@@ -10,7 +10,7 @@ const StyledAlert = styled(Alert)`
   margin: 1rem auto;
 `
 
-const Register = () => {
+const AdminRegister = () => {
   const { register } = useAuth({
     middleware: 'guest',
     redirectIfAuthenticated: '/',
@@ -23,6 +23,7 @@ const Register = () => {
   const [errors, setErrors] = useState(null)
 
   const submitForm = event => {
+    console.log('test')
     event.preventDefault()
     register({ name, email, password, password_confirmation, setErrors })
   }
@@ -58,4 +59,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default AdminRegister
