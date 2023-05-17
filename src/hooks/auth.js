@@ -8,7 +8,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   const { data: user, error, revalidate } = useSWR('/api/admin/user', () =>
     axios
-      .get('/api/admin/user')
+      .get('/api/manage/user')
       .then(res => res.data)
       .catch(error => {
         if (error.response.status != 409) return false
@@ -88,7 +88,7 @@ console.log(props)
 
   const resendEmailVerification = ({ setStatus }) => {
     axios
-      .post('/admin/email/verification-notification')
+      .post('/manage/email/verification-notification')
       .then(response => setStatus(response.data.status))
   }
 
