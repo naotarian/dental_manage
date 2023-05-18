@@ -31,6 +31,7 @@ const SideBar = () => {
   }
   return (
     <Box
+      className="pc-only"
       sx={{
         width: 250,
         bgcolor: 'background.paper',

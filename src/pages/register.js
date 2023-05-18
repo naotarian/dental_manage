@@ -21,7 +21,7 @@ const AdminRegister = () => {
   const [lastName, setLastName] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastNameKana, setLastNameKana] = useState('')
-  const [firsetNameKana, setFirstNameKana] = useState('')
+  const [firstNameKana, setFirstNameKana] = useState('')
   const [email, setEmail] = useState('')
   const [postNumber, setPostNumber] = useState('')
   const [address1, setAddress1] = useState('')
@@ -43,7 +43,7 @@ const AdminRegister = () => {
       lastName,
       firstName,
       lastNameKana,
-      firsetNameKana,
+      firstNameKana,
       postNumber,
       address1,
       address2,
