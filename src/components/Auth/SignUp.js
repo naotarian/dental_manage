@@ -9,7 +9,9 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import theme from '@/components/default'
 
 function Copyright(props) {
   return (
@@ -28,29 +30,38 @@ function Copyright(props) {
   )
 }
 
-const theme = createTheme()
+// const theme = createTheme()
 
 export default function SignUp(props) {
   const {
-    setName,
+    setDentalName,
     setEmail,
+    setTel,
+    setLastName,
+    setFirstName,
+    setLastNameKana,
+    setFirstNameKana,
+    setPostNumber,
+    setAddress1,
+    setAddress2,
+    setAddress3,
+    setAddress4,
     setPassword,
     setPasswordConfirmation,
     submitForm,
   } = props
 
   return (
-    <ThemeProvider theme={theme}>
+    <Paper style={{ width: '600px', margin: '0 auto', padding: '2rem 0' }}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}>
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -65,9 +76,10 @@ export default function SignUp(props) {
                   required
                   fullWidth
                   id="name"
-                  label="氏名"
+                  label="歯科医院名"
                   autoFocus
-                  onChange={event => setName(event.target.value)}
+                  size="small"
+                  onChange={event => setDentalName(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -78,10 +90,116 @@ export default function SignUp(props) {
                   label="メールアドレス"
                   name="email"
                   autoComplete="email"
+                  size="small"
                   onChange={event => setEmail(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="電話番号"
+                  name="tel"
+                  autoComplete="tel"
+                  size="small"
+                  onChange={event => setTel(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="代表者姓"
+                  autoComplete="tel"
+                  size="small"
+                  onChange={event => setLastName(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="代表者名"
+                  autoComplete="tel"
+                  size="small"
+                  onChange={event => setFirstName(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="代表者姓(フリガナ)"
+                  autoComplete="tel"
+                  size="small"
+                  onChange={event => setLastNameKana(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="代表者名(フリガナ)"
+                  autoComplete="tel"
+                  size="small"
+                  onChange={event => setFirstNameKana(event.target.value)}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  required
+                  fullWidth
+                  label="郵便番号"
+                  size="small"
+                  inputProps={{ maxLength: 7 }}
+                  onChange={event => setPostNumber(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained">住所検索</Button>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  label="都道府県名"
+                  size="small"
+                  onChange={event => setAddress1(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  required
+                  fullWidth
+                  label="市町村区"
+                  size="small"
+                  onChange={event => setAddress2(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  label="町域"
+                  size="small"
+                  onChange={event => setAddress3(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="以降の住所"
+                  size="small"
+                  onChange={event => setAddress4(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
@@ -90,10 +208,11 @@ export default function SignUp(props) {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  size="small"
                   onChange={event => setPassword(event.target.value)}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
@@ -102,6 +221,7 @@ export default function SignUp(props) {
                   type="password"
                   id="password_confirmation"
                   autoComplete="new-password"
+                  size="small"
                   onChange={event =>
                     setPasswordConfirmation(event.target.value)
                   }
@@ -127,6 +247,6 @@ export default function SignUp(props) {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
+    </Paper>
   )
 }

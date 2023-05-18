@@ -16,16 +16,41 @@ const AdminRegister = () => {
     redirectIfAuthenticated: '/',
   })
 
-  const [name, setName] = useState('')
+  const [dentalName, setDentalName] = useState('')
+  const [tel, setTel] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastNameKana, setLastNameKana] = useState('')
+  const [firsetNameKana, setFirstNameKana] = useState('')
   const [email, setEmail] = useState('')
+  const [postNumber, setPostNumber] = useState('')
+  const [address1, setAddress1] = useState('')
+  const [address2, setAddress2] = useState('')
+  const [address3, setAddress3] = useState('')
+  const [address4, setAddress4] = useState('')
   const [password, setPassword] = useState('')
   const [password_confirmation, setPasswordConfirmation] = useState('')
   const [errors, setErrors] = useState(null)
 
   const submitForm = event => {
-    console.log('test')
     event.preventDefault()
-    register({ name, email, password, password_confirmation, setErrors })
+    register({
+      dentalName,
+      email,
+      password,
+      password_confirmation,
+      tel,
+      lastName,
+      firstName,
+      lastNameKana,
+      firsetNameKana,
+      postNumber,
+      address1,
+      address2,
+      address3,
+      address4,
+      setErrors,
+    })
   }
 
   return (
@@ -49,8 +74,18 @@ const AdminRegister = () => {
           )
         })}
       <SignUp
-        setName={setName}
+        setDentalName={setDentalName}
         setEmail={setEmail}
+        setTel={setTel}
+        setLastName={setLastName}
+        setFirstName={setFirstName}
+        setLastNameKana={setLastNameKana}
+        setFirstNameKana={setFirstNameKana}
+        setPostNumber={setPostNumber}
+        setAddress1={setAddress1}
+        setAddress2={setAddress2}
+        setAddress3={setAddress3}
+        setAddress4={setAddress4}
         setPassword={setPassword}
         setPasswordConfirmation={setPasswordConfirmation}
         submitForm={submitForm}

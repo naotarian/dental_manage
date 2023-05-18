@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter()
 
-  const { data: user, error, revalidate } = useSWR('/api/admin/user', () =>
+  const { data: user, error, revalidate } = useSWR('/api/manages/user', () =>
     axios
-      .get('/api/manage/user')
+      .get('/api/manages/user')
       .then(res => res.data)
       .catch(error => {
         if (error.response.status != 409) return false
@@ -22,7 +22,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     await csrf()
 
     setErrors([])
-console.log(props)
     axios
       .post('/manages/register', props)
       .then(res => {
@@ -106,7 +105,7 @@ console.log(props)
     if (middleware == 'guest' && redirectIfAuthenticated && user)
       router.push(redirectIfAuthenticated)
     if (middleware == 'auth' && error) logout()
-    // if (middleware == 'guest' && !user) router.push('/login')
+    if (middleware == 'auth' && !user) router.push('/login')
   }, [user, error])
 
   return {

@@ -1,22 +1,15 @@
 body {
   margin-top: 60px;
   background-color: #f4f5f8;
-  font-family: "Yu Gothic", YuGothic, "Hiragino Sans", "Hiragino Kaku Gothic ProN", Verdana, "メイリオ", Meiryo, sans-serif !important;
+  font-family: 'Yu Gothic', YuGothic, 'Hiragino Sans',
+    'Hiragino Kaku Gothic ProN', Verdana, 'メイリオ', Meiryo, sans-serif !important;
   color: rgba(0, 0, 0, 0.6);
 }
 
-
-
 h1 {
   font-weight: 700 !important;
-  font-family: "Yu Gothic",
-    YuGothic,
-    "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN",
-    Verdana,
-    "メイリオ",
-    Meiryo,
-    sans-serif !important;
+  font-family: 'Yu Gothic', YuGothic, 'Hiragino Sans',
+    'Hiragino Kaku Gothic ProN', Verdana, 'メイリオ', Meiryo, sans-serif !important;
 }
 
 .flex {
@@ -46,10 +39,10 @@ h1 {
   margin-left: 100px;
 }
 
-input[type="button"],
-input[type="text"],
-input[type="submit"],
-input[type="image"],
+input[type='button'],
+input[type='text'],
+input[type='submit'],
+input[type='image'],
 textarea {
   outline: none !important;
 }
@@ -58,15 +51,15 @@ textarea {
   outline: none;
 }
 
-input[type="text"],
-input[type="password"],
+input[type='text'],
+input[type='password'],
 textarea,
 select {
   outline: none;
 }
 
-input[type="text"],
-input[type="password"],
+input[type='text'],
+input[type='password'],
 textarea,
 select {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -88,4 +81,7 @@ select {
 
 a {
   text-decoration: none;
+}
+.justify-space {
+  justify-content: space-between;
 }

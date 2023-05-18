@@ -3,13 +3,12 @@ import { createTheme } from '@mui/material/styles'
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
+      light: '#a5e9d8',
+      main: '#027c7e',
+      dark: '#009b9e',
       contrastText: '#fff',
     },
     secondary: {
-      // light: '#ff7961',
       light: '#27AE60',
       main: '#f44336',
       dark: '#ba000d',
@@ -28,6 +27,7 @@ const theme = createTheme({
       'sans-serif',
     ].join(','),
     body1: {
+      fontSize: '16px',
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.6)',
     },

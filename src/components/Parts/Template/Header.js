@@ -1,8 +1,13 @@
+//style
 import styled from 'styled-components'
-import AppBar from '@mui/material/AppBar'
-import Link from 'next/link'
+//next
+import { useRouter } from 'next/router'
+//hooks
 import { useAuth } from '@/hooks/auth'
-import HeaderCss from '../../../../styles/Parts/Template/Header.module.css'
+//mui
+import { Typography } from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import Button from '@mui/material/Button'
 
 const StyledAppBar = styled(AppBar)`
   padding: 1rem;
@@ -13,31 +18,48 @@ const StyledAppBar = styled(AppBar)`
   background-color: #fff;
 `
 const Header = () => {
-  const { user } = useAuth({ middleware: 'guest' })
+  const { user } = useAuth({ middleware: 'auth' })
+  console.log(user)
+  const router = useRouter()
   const { logout } = useAuth()
+  const login = () => {
+    router.push('/login')
+  }
+  const register = () => {
+    router.push('/register')
+  }
   return (
     <StyledAppBar>
-      <div className={`fixed top-0 right-0 px-6 py-4 sm:block`}>
-        {user ? (
-          <div>
-            <a
-              className={`ml-4 text-sm ${HeaderCss.headerLink}`}
-              onClick={logout}>
-              ログアウト
-            </a>
-          </div>
-        ) : (
-          <>
-            <Link href="/login">
-              <a className={`ml-4 text-sm ${HeaderCss.headerLink}`}>Login</a>
-            </Link>
-
-            <Link href="/register">
-              <a className={`ml-4 text-sm ${HeaderCss.headerLink}`}>Register</a>
-            </Link>
-          </>
-        )}
-      </div>
+      {user && (
+        <div className={`fixed top-0 right-0 px-6 py-4 sm:block`}>
+          {user ? (
+            <div className="flex justify-space">
+              <Typography
+                variant="body1"
+                style={{ fontSize: '1.4rem' }}
+                className="bold">
+                {user.dental_name}様
+              </Typography>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={logout}
+                style={{ float: 'right' }}>
+                ログアウト
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Button variant="contained" color="info" onClick={login}>
+                ログイン
+              </Button>
+              <Button variant="contained" color="info" onClick={register}>
+                会員登録
+              </Button>
+            </>
+          )}
+        </div>
+      )}
     </StyledAppBar>
   )
 }
