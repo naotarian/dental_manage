@@ -17,9 +17,8 @@ const StyledAppBar = styled(AppBar)`
   top: 0;
   background-color: #fff;
 `
-const Header = () => {
-  const { user } = useAuth({ middleware: 'auth' })
-  console.log(user)
+const Header = props => {
+  const { user } = props
   const router = useRouter()
   const { logout } = useAuth()
   const login = () => {

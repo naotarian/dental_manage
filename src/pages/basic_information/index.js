@@ -4,13 +4,15 @@ import { useAuth } from '@/hooks/auth'
 import Header from '@/components/Parts/Template/Header'
 import SideBar from '@/components/Parts/Template/SideBar'
 import PageTitle from '@/components/Parts/Template/PageTitle'
-
-export default function Home() {
+//Template
+import Template from '@/components/Template/basicInformation/Index'
+//mui
+const Index = () => {
   const { user } = useAuth({ middleware: 'auth' })
   return (
     <>
       <Head>
-        <title>管理画面TOPページ</title>
+        <title>医院基本情報設定ページ</title>
         <link
           href="https://fonts.googleapis.com/css?family=Noto+Sans"
           rel="stylesheet"
@@ -21,10 +23,14 @@ export default function Home() {
         <>
           <SideBar />
           <div className="manage-container">
-            <PageTitle title="管理画面TOP" />
+            <PageTitle title="医院基本情報" />
+            <div className="content-wrap">
+              <Template />
+            </div>
           </div>
         </>
       )}
     </>
   )
 }
+export default Index

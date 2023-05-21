@@ -108,3 +108,17 @@ a {
   text-align: center;
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.45);
 }
+
+.content-wrap {
+  width: 800px;
+  margin: 1rem auto 0 auto;
+}
+.item::before {
+  color: #009b9e;
+  content: '■';
+  font-size: 100%;
+  margin-right: 10px;
+}
+.al-center {
+  align-items: center;
+}
