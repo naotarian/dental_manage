@@ -126,3 +126,7 @@ a {
 .al-center {
   align-items: center;
 }
+.button-area {
+  text-align: center;
+  margin: 2rem auto;
+}
