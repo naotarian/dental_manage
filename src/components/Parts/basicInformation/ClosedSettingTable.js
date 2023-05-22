@@ -15,74 +15,74 @@ const ClosedSettingTable = props => {
   const { data, setData } = props
   const timeItem = time => {
     let items = []
-    for (let i = 0; i < 24; i++) {
-      items.push(
-        <option
-          selected={time == `${('00' + i).slice(-2)}:00`}
-          value={`${('00' + i).slice(-2)}:00`}
-          key={`${i}:00`}>
-          {i}:00
-        </option>,
+    return [...Array(24)].map((_, i) => {
+      return (
+        <>
+          <option
+            selected={time == `${('00' + i).slice(-2)}:00`}
+            value={`${('00' + i).slice(-2)}:00`}
+            key={`${i}:00`}>
+            {i}:00
+          </option>
+          <option
+            selected={time == `${('00' + i).slice(-2)}:30`}
+            value={`${i}:30`}
+            key={`${i}:30`}>
+            {i}:30
+          </option>
+        </>
       )
-      items.push(
-        <option
-          selected={time == `${('00' + i).slice(-2)}:30`}
-          value={`${i}:30`}
-          key={`${i}:30`}>
-          {i}:30
-        </option>,
-      )
-    }
-    return items
+    })
   }
   const change = (num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].is_closed = !newValue[num][yobi].is_closed
-    if (newValue[num][yobi].is_closed) {
-      newValue[num][yobi].is_morning = false
-      newValue[num][yobi].is_afternoon = false
-      newValue[num][yobi].morning_start = null
-      newValue[num][yobi].morning_end = null
-      newValue[num][yobi].morning_start = null
-      newValue[num][yobi].morning_end = null
+    const target = data[num]
+    target[yobi].is_closed = !target[yobi].is_closed
+    //is_closedがtrueなら初期化
+    if (target[yobi].is_closed) {
+      target[yobi].is_morning = false
+      target[yobi].is_afternoon = false
+      target[yobi].morning_start = null
+      target[yobi].morning_end = null
+      target[yobi].morning_start = null
+      target[yobi].morning_end = null
     }
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
 
   const change_morning_check = (event, num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].is_morning = event.target.checked
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    const target = data[num]
+    target[yobi].is_morning = event.target.checked
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
   const change_afternoon_check = (event, num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].is_afternoon = event.target.checked
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    const target = data[num]
+    target[yobi].is_afternoon = event.target.checked
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
   const morning_start_change = (event, num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].morning_start = event.target.value
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    const target = data[num]
+    target[yobi].morning_start = event.target.value
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
   const morning_end_change = (event, num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].morning_end = event.target.value
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    const target = data[num]
+    target[yobi].morning_end = event.target.value
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
   const afternoon_start_change = (event, num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].afternoon_start = event.target.value
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    const target = data[num]
+    target[yobi].afternoon_start = event.target.value
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
   const afternoon_end_change = (event, num, yobi) => {
-    let newValue = data
-    newValue[num][yobi].afternoon_end = event.target.value
-    setData(data.map((d, index) => (index === num ? newValue[num] : d)))
+    const target = data[num]
+    target[yobi].afternoon_end = event.target.value
+    setData(data.map((d, index) => (index === num ? target : d)))
   }
   return (
     <TableContainer component={Paper}>
       {data && (
-        <Table aria-label="simple table">
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell></TableCell>

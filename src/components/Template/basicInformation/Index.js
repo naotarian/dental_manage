@@ -9,7 +9,6 @@ import { Typography, Grid, Button } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 import CheckIcon from '@mui/icons-material/Check'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 //Parts
 import ClosedSettingTable from '@/components/Parts/basicInformation/ClosedSettingTable'
 const Index = () => {
@@ -38,9 +37,10 @@ const Index = () => {
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/basic_information')
-      setClosed(res.data.basic_information.closed)
-      setBusinessStart(res.data.basic_information.business_start.slice(0, -3))
-      setBusinessEnd(res.data.basic_information.business_end.slice(0, -3))
+      console.log(res?.data.basic_information.closed)
+      setClosed(res?.data.basic_information.closed || null)
+      setBusinessStart(res?.data.basic_information.business_start.slice(0, -3))
+      setBusinessEnd(res?.data.basic_information.business_end.slice(0, -3))
     })()
   }, [])
 
@@ -88,23 +88,19 @@ const Index = () => {
         </Grid>
         <Grid item xs={10}>
           <FormControl sx={{ m: 1, minWidth: 120, mr: 6 }} size="small">
-            <InputLabel id="demo-select-small-label">開始時間</InputLabel>
+            <InputLabel>開始時間</InputLabel>
             <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
               value={businessStart}
-              label="Age"
+              label="終了時間"
               onChange={businessStartChange}>
               {timeItem()}
             </Select>
           </FormControl>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small-label">終了時間</InputLabel>
+            <InputLabel>終了時間</InputLabel>
             <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
               value={businessEnd}
-              label="Age"
+              label="終了時間"
               onChange={businessEndChange}>
               {timeItem()}
             </Select>
