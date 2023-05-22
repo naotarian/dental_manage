@@ -5,6 +5,7 @@ import Select from '@mui/material/Select'
 import { useState } from 'react'
 //mui
 import { Typography, Grid } from '@mui/material'
+import ClosedSettingTable from '@/components/Parts/basicInformation/ClosedSettingTable'
 const Index = () => {
   const [businessStart, setBusinessStart] = useState('')
   const [businessEnd, setBusinessEnd] = useState('')
@@ -32,12 +33,12 @@ const Index = () => {
   }
   return (
     <Grid container spacing={2} className="al-center">
-      <Grid item xs={4}>
+      <Grid item xs={2}>
         <Typography variant="item" className="item">
           営業時間
         </Typography>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={10}>
         <FormControl sx={{ m: 1, minWidth: 120, mr: 6 }} size="small">
           <InputLabel id="demo-select-small-label">開始時間</InputLabel>
           <Select
@@ -60,6 +61,14 @@ const Index = () => {
             {timeItem()}
           </Select>
         </FormControl>
+      </Grid>
+      <Grid item xs={2}>
+        <Typography variant="item" className="item">
+          休診日設定
+        </Typography>
+      </Grid>
+      <Grid item xs={10}>
+        <ClosedSettingTable />
       </Grid>
     </Grid>
   )

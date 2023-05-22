@@ -24,7 +24,7 @@ const Index = () => {
           <SideBar />
           <div className="manage-container">
             <PageTitle title="医院基本情報" />
-            <div className="content-wrap">
+            <div className="content-wrap-1200">
               <Template />
             </div>
           </div>
