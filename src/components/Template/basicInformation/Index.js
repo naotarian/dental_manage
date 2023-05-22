@@ -6,11 +6,16 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { Typography, Grid, Button } from '@mui/material'
+import Alert from '@mui/material/Alert'
+import Stack from '@mui/material/Stack'
+import CheckIcon from '@mui/icons-material/Check'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 //Parts
 import ClosedSettingTable from '@/components/Parts/basicInformation/ClosedSettingTable'
 const Index = () => {
   const [businessStart, setBusinessStart] = useState('')
   const [businessEnd, setBusinessEnd] = useState('')
+  const [success, setSuccess] = useState('')
   const businessStartChange = event => {
     setBusinessStart(event.target.value)
   }
@@ -40,23 +45,45 @@ const Index = () => {
   }, [])
 
   const submit = async () => {
-    const sendData = {
-      businessStart,
-      businessEnd,
-      closed,
-    }
-    const res = await axios.post(
-      '/api/manages/basic_information/update',
-      sendData,
-    )
+    try {
+      const sendData = {
+        businessStart,
+        businessEnd,
+        closed,
+      }
+      const res = await axios.post(
+        '/api/manages/basic_information/update',
+        sendData,
+      )
+
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      setSuccess(
+        res.data.is_change
+          ? '医院基本情報を更新しました。'
+          : '変更がありませんでした。',
+      )
+      window.setTimeout(function () {
+        setSuccess('')
+      }, 4000)
+    } catch (e) {}
   }
 
   return (
     <>
-      <Grid container spacing={2} className="al-center">
+      {success.length > 0 && (
+        <Stack sx={{ width: '100%', mb: 4 }} spacing={2}>
+          <Alert
+            icon={<CheckIcon fontSize="inherit" />}
+            variant="filled"
+            severity="success">
+            {success}
+          </Alert>
+        </Stack>
+      )}
+      <Grid container spacing={2}>
         <Grid item xs={2}>
           <Typography variant="item" className="item">
-            営業時間
+            診療時間
           </Typography>
         </Grid>
         <Grid item xs={10}>
