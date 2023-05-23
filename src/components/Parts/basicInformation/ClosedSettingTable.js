@@ -1,20 +1,19 @@
 //mui
+import { Typography } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import ToggleButton from '@mui/material/ToggleButton'
-import { Typography } from '@mui/material'
-import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
 
 const ClosedSettingTable = props => {
   const { data, setData } = props
   const timeItem = time => {
-    let items = []
     return [...Array(24)].map((_, i) => {
       return (
         <>
@@ -80,12 +79,12 @@ const ClosedSettingTable = props => {
     setData(data.map((d, index) => (index === num ? target : d)))
   }
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} style={{ maxHeight: '550px' }}>
       {data && (
         <Table>
-          <TableHead>
+          <TableHead className="sticky z-999 top-0 bg-white">
             <TableRow>
-              <TableCell></TableCell>
+              <TableCell />
               <TableCell
                 align="center"
                 className="bold"

@@ -1,12 +1,10 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
+
 import Header from '@/components/Parts/Template/Header'
-import SideBar from '@/components/Parts/Template/SideBar'
 import PageTitle from '@/components/Parts/Template/PageTitle'
-//Template
+import SideBar from '@/components/Parts/Template/SideBar'
 import Template from '@/components/Template/basicInformation/Index'
-//mui
+import { useAuth } from '@/hooks/auth'
 const Index = () => {
   const { user } = useAuth({ middleware: 'auth' })
   return (

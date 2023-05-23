@@ -1,7 +1,9 @@
 import '../../styles/global/global.css'
-import theme from '@/components/default'
-import { ThemeProvider } from '@mui/material/styles'
 import React from 'react'
+
+import { ThemeProvider } from '@mui/material/styles'
+
+import theme from '@/components/default'
 const App = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>

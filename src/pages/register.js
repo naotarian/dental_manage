@@ -1,10 +1,13 @@
-import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
+
 //components
-import SignUp from '@/components/Auth/SignUp'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
+
 import styled from 'styled-components'
+
+import SignUp from '@/components/Auth/SignUp'
+import { useAuth } from '@/hooks/auth'
 const StyledAlert = styled(Alert)`
   width: 80%;
   margin: 1rem auto;

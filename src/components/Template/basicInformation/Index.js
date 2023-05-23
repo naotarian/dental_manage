@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
-import axios from '@/lib/axios'
+
 //mui
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import CheckIcon from '@mui/icons-material/Check'
 import { Typography, Grid, Button } from '@mui/material'
 import Alert from '@mui/material/Alert'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
-import CheckIcon from '@mui/icons-material/Check'
-//Parts
+
 import ClosedSettingTable from '@/components/Parts/basicInformation/ClosedSettingTable'
+//Parts
+import axios from '@/lib/axios'
 const Index = () => {
   const [businessStart, setBusinessStart] = useState('')
   const [businessEnd, setBusinessEnd] = useState('')
@@ -37,7 +39,6 @@ const Index = () => {
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/basic_information')
-      console.log(res?.data.basic_information.closed)
       setClosed(res?.data.basic_information.closed || null)
       setBusinessStart(res?.data.basic_information.business_start.slice(0, -3))
       setBusinessEnd(res?.data.basic_information.business_end.slice(0, -3))
@@ -65,7 +66,9 @@ const Index = () => {
       window.setTimeout(function () {
         setSuccess('')
       }, 4000)
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (

@@ -1,13 +1,15 @@
 //style
-import styled from 'styled-components'
 //next
-import { useRouter } from 'next/router'
 //hooks
-import { useAuth } from '@/hooks/auth'
 //mui
 import { Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
+
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
+
+import { useAuth } from '@/hooks/auth'
 
 const StyledAppBar = styled(AppBar)`
   padding: 1rem;

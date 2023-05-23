@@ -1,11 +1,11 @@
-import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+
 //components
 import ForgetPassword from '../components/Auth/ForgetPassword'
 
+import { useAuth } from '@/hooks/auth'
+
 const ForgotPassword = () => {
-  const router = useRouter()
   const { forgotPassword } = useAuth({ middleware: 'guest' })
 
   const [email, setEmail] = useState('')

@@ -3,14 +3,14 @@ import Head from 'next/head'
 import Header from '@/components/Parts/Template/Header'
 import PageTitle from '@/components/Parts/Template/PageTitle'
 import SideBar from '@/components/Parts/Template/SideBar'
+import Template from '@/components/Template/access/Index'
 import { useAuth } from '@/hooks/auth'
-
-export default function Home() {
+const access = () => {
   const { user } = useAuth({ middleware: 'auth' })
   return (
     <>
       <Head>
-        <title>管理画面TOPページ</title>
+        <title>医院アクセス情報設定ページ</title>
         <link
           href="https://fonts.googleapis.com/css?family=Noto+Sans"
           rel="stylesheet"
@@ -21,10 +21,14 @@ export default function Home() {
         <>
           <SideBar />
           <div className="manage-container">
-            <PageTitle title="管理画面TOP" />
+            <PageTitle title="医院アクセス情報" />
+            <div className="content-wrap">
+              <Template />
+            </div>
           </div>
         </>
       )}
     </>
   )
 }
+export default access

@@ -1,8 +1,10 @@
-import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
+
 import { useRouter } from 'next/router'
+
 //components
 import SignIn from '@/components/Auth/SignIn'
+import { useAuth } from '@/hooks/auth'
 
 const Login = () => {
   const router = useRouter()
