@@ -7,6 +7,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
+import VaccinesIcon from '@mui/icons-material/Vaccines'
 export const config = {
   sidebarMenu: [
     {
@@ -21,6 +22,11 @@ export const config = {
       sub: [
         { name: '基本情報', path: '/basic_information' },
         { name: 'アクセス', path: '/access', icon: <MapIcon /> },
+        {
+          name: '診療内容設定',
+          path: '/medical_treatment',
+          icon: <VaccinesIcon />,
+        },
       ],
     },
     {
