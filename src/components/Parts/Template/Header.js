@@ -2,10 +2,10 @@
 //next
 //hooks
 //mui
-import { Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
 
+import { Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 

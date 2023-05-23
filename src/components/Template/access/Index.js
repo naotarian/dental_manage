@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 
-import CheckIcon from '@mui/icons-material/Check'
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
@@ -11,6 +10,8 @@ import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+
+import CheckIcon from '@mui/icons-material/Check'
 
 import axios from '@/lib/axios'
 const Index = () => {

@@ -64,7 +64,12 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: '@mui/**',
+            pattern: '@mui/material/**',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@mui/icons-material/**',
             group: 'external',
             position: 'before',
           },

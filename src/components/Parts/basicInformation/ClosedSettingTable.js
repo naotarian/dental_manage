@@ -1,5 +1,4 @@
 //mui
-import { Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
@@ -10,6 +9,8 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import ToggleButton from '@mui/material/ToggleButton'
+
+import { Typography } from '@mui/material'
 
 const ClosedSettingTable = props => {
   const { data, setData } = props

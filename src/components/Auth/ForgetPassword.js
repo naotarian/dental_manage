@@ -1,4 +1,3 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -9,6 +8,8 @@ import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
 import AuthSessionStatus from '@/components/AuthSessionStatus'
 import AuthValidationErrors from '@/components/AuthValidationErrors'
