@@ -1,5 +1,4 @@
 import Head from '@/components/Common/Head'
-
 import Header from '@/components/Parts/Template/Header'
 import PageTitle from '@/components/Parts/Template/PageTitle'
 import SideBar from '@/components/Parts/Template/SideBar'

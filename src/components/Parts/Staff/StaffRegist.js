@@ -1,29 +1,53 @@
-import { useState } from 'react'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import { useState, useEffect } from 'react'
+import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Grid from '@mui/material/Grid'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
+import Paper from '@mui/material/Paper'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
-import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import FormHelperText from '@mui/material/FormHelperText'
 const StaffRegist = props => {
-  const { colors, regist } = props
-  const [gender, setGender] = useState('')
-  const [staffColor, setStaffColor] = useState(1)
-  const [selectedColor, setSelectedColor] = useState(0)
-  const [staffNumber, setStaffNumber] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastNameKana, setLastNameKana] = useState('')
-  const [firstNameKana, setFirstNameKana] = useState('')
-  const [nickName, setNickName] = useState('')
-  const [displayOrder, setDisplayOrder] = useState('')
-  const [priority, setPriority] = useState('')
+  const {
+    colors,
+    regist,
+    gender,
+    setGender,
+    staffColor,
+    setStaffColor,
+    setSelectedColor,
+    staffNumber,
+    setStaffNumber,
+    lastName,
+    setLastName,
+    firstName,
+    setFirstName,
+    lastNameKana,
+    setLastNameKana,
+    firstNameKana,
+    setFirstNameKana,
+    nickName,
+    setNickName,
+    displayOrder,
+    setDisplayOrder,
+    priority,
+    setPriority,
+    listSelect,
+    staff,
+    success,
+    deleteStaff,
+  } = props
+  const [genderErr, setGenderErr] = useState('')
+  const [staffNumberErr, setStaffNumberErr] = useState('')
+  const [firstNameErr, setFirstNameErr] = useState('')
+  const [firstNameKanaErr, setFirstNameKanaErr] = useState('')
+  const [lastNameErr, setLastNameErr] = useState('')
+  const [lastNameKanaErr, setLastNameKanaErr] = useState('')
   const genderChange = e => {
     setGender(e.target.value)
   }
@@ -56,6 +80,45 @@ const StaffRegist = props => {
     setNickName(e.target.value)
   }
   const submit = () => {
+    let isError = false
+    if (!gender) {
+      isError = true
+      setGenderErr('性別を選択してください。')
+    } else {
+      setGenderErr('')
+    }
+    if (!staffNumber) {
+      isError = true
+      setStaffNumberErr('社員番号を入力してください。')
+    } else {
+      setStaffNumberErr('')
+    }
+    if (!firstName) {
+      isError = true
+      setFirstNameErr('名を入力してください。')
+    } else {
+      setFirstNameErr('')
+    }
+    if (!firstNameKana) {
+      isError = true
+      setFirstNameKanaErr('名(カナ)を入力してください。')
+    } else {
+      setFirstNameKanaErr('')
+    }
+    if (!lastName) {
+      isError = true
+      setLastNameErr('姓を入力してください。')
+    } else {
+      setLastNameErr('')
+    }
+    if (!lastNameKana) {
+      isError = true
+      setLastNameKanaErr('姓(カナ)を入力してください。')
+    } else {
+      setLastNameKanaErr('')
+    }
+    if (isError) return
+    const autoNum = listSelect ? staff.length : staff.length + 1
     const sendData = {
       gender,
       staffColor,
@@ -64,18 +127,35 @@ const StaffRegist = props => {
       firstName,
       lastNameKana,
       firstNameKana,
-      displayOrder,
-      priority,
-      nickName,
+      displayOrder: displayOrder ? displayOrder : autoNum,
+      priority: priority ? priority : autoNum,
+      nickName: nickName ? nickName : firstName,
+      staffId: listSelect,
     }
     regist(sendData)
   }
+
   return (
     <Grid
       container
       spacing={0}
       style={{ width: '100%', padding: '1rem' }}
       component={Paper}>
+      <Grid item xs={12} className="text-c mb1 relative">
+        {listSelect ? (
+          <Typography variant="largeBold">スタッフ情報編集</Typography>
+        ) : (
+          <Typography variant="largeBold">スタッフ新規登録</Typography>
+        )}
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => deleteStaff(listSelect)}
+          disabled={!listSelect}
+          className="absolute right-0">
+          削除
+        </Button>
+      </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">社員番号</Typography>
       </Grid>
@@ -88,25 +168,36 @@ const StaffRegist = props => {
           InputLabelProps={{
             shrink: true,
           }}
-          InputProps={{ inputProps: { min: 1, max: 10 } }}
+          InputProps={{ inputProps: { min: 1 } }}
           size="small"
           value={staffNumber}
           onChange={staffNumberChange}
+          error={staffNumberErr.length > 0}
+          helperText={staffNumberErr}
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">性別</Typography>
       </Grid>
       <Grid item xs={4} className="b-gray p1">
-        <FormControl>
+        <FormControl error={genderErr.length > 0}>
           <RadioGroup
             onChange={genderChange}
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group">
-            <FormControlLabel value="female" control={<Radio />} label="女性" />
-            <FormControlLabel value="male" control={<Radio />} label="男性" />
+            <FormControlLabel
+              value="1"
+              control={<Radio checked={gender == 1} />}
+              label="女性"
+            />
+            <FormControlLabel
+              value="2"
+              control={<Radio checked={gender == 2} />}
+              label="男性"
+            />
           </RadioGroup>
+          <FormHelperText color="error">{genderErr}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={2} className="b-gray p1">
@@ -120,29 +211,37 @@ const StaffRegist = props => {
           value={lastName}
           fullWidth
           size="small"
+          error={lastNameErr.length > 0}
+          helperText={lastNameErr}
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">名</Typography>
       </Grid>
-      <Grid
-        item
-        xs={4}
-        onChange={firstNameChange}
-        value={firstName}
-        className="b-gray p1">
-        <TextField label="名" required fullWidth size="small" />
+      <Grid item xs={4} onChange={firstNameChange} className="b-gray p1">
+        <TextField
+          label="名"
+          value={firstName}
+          required
+          fullWidth
+          size="small"
+          error={firstNameErr.length > 0}
+          helperText={firstNameErr}
+        />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">姓(カナ)</Typography>
       </Grid>
-      <Grid
-        item
-        xs={4}
-        onChange={lastNameKanaChange}
-        value={lastNameKana}
-        className="b-gray p1">
-        <TextField required label="姓(カナ)" fullWidth size="small" />
+      <Grid item xs={4} onChange={lastNameKanaChange} className="b-gray p1">
+        <TextField
+          value={lastNameKana}
+          required
+          label="姓(カナ)"
+          fullWidth
+          size="small"
+          error={lastNameKanaErr.length > 0}
+          helperText={lastNameKanaErr}
+        />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">名(カナ)</Typography>
@@ -155,6 +254,8 @@ const StaffRegist = props => {
           label="名(カナ)"
           fullWidth
           size="small"
+          error={firstNameKanaErr.length > 0}
+          helperText={firstNameKanaErr}
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
@@ -168,6 +269,7 @@ const StaffRegist = props => {
           label="ニックネーム"
           fullWidth
           size="small"
+          helperText="※未入力の場合は名が設定されます。"
         />
       </Grid>
 
@@ -184,7 +286,10 @@ const StaffRegist = props => {
             label="スタッフカラー"
             onChange={handleChange}>
             {colors?.map((data, index) => (
-              <MenuItem key={index} value={data.id}>
+              <MenuItem
+                key={index}
+                value={data.id}
+                selected={colors[staffColor].id == data.id}>
                 {data.color_name}
               </MenuItem>
             ))}
@@ -192,7 +297,8 @@ const StaffRegist = props => {
         </FormControl>
         <span
           className="color-display-span"
-          style={{ background: colors[selectedColor].color_code }}></span>
+          style={{ background: colors[staffColor - 1].color_code }}
+        />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">表示順序</Typography>
@@ -208,7 +314,8 @@ const StaffRegist = props => {
           InputLabelProps={{
             shrink: true,
           }}
-          InputProps={{ inputProps: { min: 1, max: 10 } }}
+          InputProps={{ inputProps: { min: 1, max: staff.length + 1 } }}
+          helperText="※未入力の場合はシステムが自動で設定します。"
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
@@ -225,7 +332,8 @@ const StaffRegist = props => {
           InputLabelProps={{
             shrink: true,
           }}
-          InputProps={{ inputProps: { min: 1, max: 10 } }}
+          InputProps={{ inputProps: { min: 1, max: staff.length + 1 } }}
+          helperText="※未入力の場合はシステムが自動で設定します。"
         />
       </Grid>
       <div className="button-area">

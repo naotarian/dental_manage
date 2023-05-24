@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import Head from '@/components/Common/Head'
+
 import { useRouter } from 'next/router'
 
 //components
 import SignIn from '@/components/Auth/SignIn'
+import Head from '@/components/Common/Head'
 import { useAuth } from '@/hooks/auth'
 
 const Login = () => {

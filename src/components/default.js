@@ -41,6 +41,11 @@ const theme = createTheme({
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 0.6)',
     },
+    largeBold: {
+      fontSize: '20px',
+      fontWeight: 'bold',
+      color: 'rgba(0, 0, 0, 0.6)',
+    },
     item: {
       fontSize: '16px',
       fontWeight: 700,
