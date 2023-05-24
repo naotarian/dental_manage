@@ -99,7 +99,15 @@ a {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.45);
 }
 
+.content-wrap-1000 {
+  width: 1000px;
+  margin: 4rem auto 0 auto;
+}
 .content-wrap-1200 {
+  width: 1200px;
+  margin: 4rem auto 0 auto;
+}
+.content-wrap-1300 {
   width: 1300px;
   margin: 4rem auto 0 auto;
 }
@@ -132,9 +140,15 @@ a {
 .bg-white {
   background-color: #fff;
 }
+.p1 {
+  padding: 1rem;
+}
 .mt1 {
   margin-top: 1rem;
 }
 .mb1 {
   margin-bottom: 1rem;
+}
+.b-gray {
+  border: 1px solid #ddd;
 }

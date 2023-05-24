@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import Head from '@/components/Common/Head'
 import { useRouter } from 'next/router'
 
 //components
@@ -36,6 +36,7 @@ const Login = () => {
 
   return (
     <>
+      <Head title="管理画面ログインページ" />
       <SignIn
         submitForm={submitForm}
         setEmail={setEmail}
