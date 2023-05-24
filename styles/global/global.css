@@ -152,3 +152,9 @@ a {
 .b-gray {
   border: 1px solid #ddd;
 }
+.color-display-span {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-left: 50px;
+}
