@@ -30,10 +30,14 @@ const Index = () => {
     let items = []
     for (let i = 0; i < 24; i++) {
       items.push(
-        <MenuItem value={`${('00' + i).slice(-2)}:00`}>{i}:00</MenuItem>,
+        <MenuItem key={i} value={`${('00' + i).slice(-2)}:00`}>
+          {i}:00
+        </MenuItem>,
       )
       items.push(
-        <MenuItem value={`${('00' + i).slice(-2)}:30`}>{i}:30</MenuItem>,
+        <MenuItem key={i} value={`${('00' + i).slice(-2)}:30`}>
+          {i}:30
+        </MenuItem>,
       )
     }
     return items

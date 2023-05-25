@@ -1,5 +1,6 @@
 //mui
 import Checkbox from '@mui/material/Checkbox'
+import * as React from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -17,7 +18,7 @@ const ClosedSettingTable = props => {
   const timeItem = time => {
     return [...Array(24)].map((_, i) => {
       return (
-        <>
+        <React.Fragment key={i}>
           <option
             selected={time == `${('00' + i).slice(-2)}:00`}
             value={`${('00' + i).slice(-2)}:00`}
@@ -30,7 +31,7 @@ const ClosedSettingTable = props => {
             key={`${i}:30`}>
             {i}:30
           </option>
-        </>
+        </React.Fragment>
       )
     })
   }

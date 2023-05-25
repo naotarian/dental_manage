@@ -62,6 +62,7 @@ const Index = () => {
     sendData.staffId
       ? setSuccess('スタッフ情報を更新しました。')
       : setSuccess('スタッフを登録しました。')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     window.setTimeout(function () {
       setSuccess('')
     }, 4000)
@@ -84,6 +85,7 @@ const Index = () => {
     setStaff(res.data.staff)
     setListSelect(0)
     setDestory('スタッフ情報を削除しました。')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     window.setTimeout(function () {
       setDestory('')
     }, 4000)

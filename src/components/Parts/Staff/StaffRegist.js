@@ -353,6 +353,23 @@ const StaffRegist = props => {
       <Grid item xs={10} className="b-gray p1">
         <FormGroup style={{ flexDirection: 'row' }}>
           <Grid container>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // checked={treatCheckList.includes(data.category.id)}
+                    onChange={e => {
+                      const ids = dentalTreat.map(
+                        obj => obj.medical_children_category_id,
+                      )
+                      if (e.target.checked) setTreatCheckList(ids)
+                      if (!e.target.checked) setTreatCheckList([])
+                    }}
+                  />
+                }
+                label="全てチェック"
+              />
+            </Grid>
             {dentalTreat?.map((data, index) => (
               <Grid item key={index} xs={6}>
                 <FormControlLabel

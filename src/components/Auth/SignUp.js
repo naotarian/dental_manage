@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
+import axios from 'axios'
+
 function Copyright(props) {
   return (
     <Typography
@@ -47,7 +49,23 @@ export default function SignUp(props) {
     setPassword,
     setPasswordConfirmation,
     submitForm,
+    postNumber,
+    address1,
+    address2,
   } = props
+
+  const searchAddress = async () => {
+    const res = await axios.get('https://zipcloud.ibsnet.co.jp/api/search', {
+      params: {
+        zipcode: postNumber,
+      },
+    })
+    if (res.data?.results?.[0]) {
+      const data = res.data?.results?.[0]
+      setAddress1(data.address1)
+      setAddress2(data.address2 + data.address3)
+    }
+  }
 
   return (
     <Paper style={{ width: '600px', margin: '0 auto', padding: '2rem 0' }}>
@@ -160,7 +178,9 @@ export default function SignUp(props) {
                 />
               </Grid>
               <Grid item xs={6}>
-                <Button variant="contained">住所検索</Button>
+                <Button variant="contained" onClick={searchAddress}>
+                  住所検索
+                </Button>
               </Grid>
               <Grid item xs={4}>
                 <TextField
@@ -168,6 +188,7 @@ export default function SignUp(props) {
                   fullWidth
                   label="都道府県名"
                   size="small"
+                  value={address1}
                   onChange={event => setAddress1(event.target.value)}
                 />
               </Grid>
@@ -177,6 +198,7 @@ export default function SignUp(props) {
                   fullWidth
                   label="市町村区"
                   size="small"
+                  value={address2}
                   onChange={event => setAddress2(event.target.value)}
                 />
               </Grid>

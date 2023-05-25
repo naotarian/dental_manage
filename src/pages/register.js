@@ -92,6 +92,11 @@ const AdminRegister = () => {
         setPassword={setPassword}
         setPasswordConfirmation={setPasswordConfirmation}
         submitForm={submitForm}
+        postNumber={postNumber}
+        address1={address1}
+        address2={address2}
+        address3={address3}
+        address4={address4}
       />
     </>
   )
