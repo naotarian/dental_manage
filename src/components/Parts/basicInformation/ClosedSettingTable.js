@@ -13,7 +13,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import { Typography } from '@mui/material'
 
 const ClosedSettingTable = props => {
-  const { data, setData } = props
+  const { data, holiday, setHoliday, setData } = props
   const timeItem = time => {
     return [...Array(24)].map((_, i) => {
       return (
@@ -43,10 +43,34 @@ const ClosedSettingTable = props => {
       target[yobi].is_afternoon = false
       target[yobi].morning_start = null
       target[yobi].morning_end = null
-      target[yobi].morning_start = null
-      target[yobi].morning_end = null
+      target[yobi].afternoon_start = null
+      target[yobi].afternoon_end = null
     }
     setData(data.map((d, index) => (index === num ? target : d)))
+  }
+  const holidayChange = () => {
+    const target = holiday
+    target.is_closed = !target.is_closed
+    //is_closedがtrueなら初期化
+    if (target.is_closed) {
+      target.is_morning = false
+      target.is_afternoon = false
+      target.morning_start = null
+      target.morning_end = null
+      target.afternoon_start = null
+      target.afternoon_end = null
+    }
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
+    // setHoliday(prevState => ({ ...prevState, target }))
   }
 
   const change_morning_check = (event, num, yobi) => {
@@ -78,6 +102,92 @@ const ClosedSettingTable = props => {
     const target = data[num]
     target[yobi].afternoon_end = event.target.value
     setData(data.map((d, index) => (index === num ? target : d)))
+  }
+  //祝日
+  const change_morning_holiday = event => {
+    const target = holiday
+    target.is_morning = event.target.checked
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
+    // setHoliday(prevState => ({ ...prevState, target }))
+  }
+  const change_afternoon_holiday = event => {
+    const target = holiday
+    target.is_afternoon = event.target.checked
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
+  }
+  const morning_start_holiday = event => {
+    const target = holiday
+    target.morning_start = event.target.value
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
+  }
+  const morning_end_holiday = event => {
+    const target = holiday
+    target.morning_end = event.target.value
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
+  }
+  const afternoon_start_holiday = event => {
+    const target = holiday
+    target.afternoon_start = event.target.value
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
+  }
+  const afternoon_end_holiday = event => {
+    const target = holiday
+    target.afternoon_end = event.target.value
+    setHoliday({
+      ...holiday,
+      is_closed: target.is_closed,
+      is_morning: target.is_morning,
+      is_afternoon: target.is_afternoon,
+      morning_start: target.morning_start,
+      morning_end: target.morning_end,
+      afternoon_start: target.afternoon_start,
+      afternoon_end: target.afternoon_end,
+    })
   }
   return (
     <TableContainer component={Paper} style={{ maxHeight: '550px' }}>
@@ -228,6 +338,100 @@ const ClosedSettingTable = props => {
                 </>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell align="center" style={{ whiteSpace: 'nowrap' }}>
+                祝日
+              </TableCell>
+              <TableCell align="center">
+                <ToggleButton
+                  value="check"
+                  color="error"
+                  selected={holiday.is_closed}
+                  onChange={() => holidayChange()}>
+                  {holiday.is_closed ? (
+                    <Typography variant="body2" color="error">
+                      休診
+                    </Typography>
+                  ) : (
+                    <Typography variant="body2">診察</Typography>
+                  )}
+                </ToggleButton>
+                <FormControlLabel
+                  style={{ whiteSpace: 'nowrap' }}
+                  disabled={holiday.is_closed}
+                  control={
+                    <Checkbox
+                      onChange={change_morning_holiday}
+                      checked={holiday.is_morning}
+                      style={{ padding: 0, paddingRight: '2px' }}
+                      size="small"
+                    />
+                  }
+                  label={
+                    <span
+                      style={{
+                        fontSize: '0.4rem',
+                        color: '#333',
+                        fontWeight: 'bold',
+                      }}>
+                      午前診療
+                    </span>
+                  }
+                />
+                <div>
+                  <select
+                    onChange={morning_start_holiday}
+                    disabled={!holiday.is_morning}
+                    style={{ fontSize: '.4rem' }}>
+                    {timeItem(holiday.morning_start)}
+                  </select>
+                  ~
+                  <select
+                    onChange={morning_end_holiday}
+                    disabled={!holiday.is_morning}
+                    style={{ fontSize: '.4rem' }}>
+                    {timeItem(holiday.morning_end)}
+                  </select>
+                </div>
+                <FormControlLabel
+                  style={{ whiteSpace: 'nowrap' }}
+                  disabled={holiday.is_closed}
+                  control={
+                    <Checkbox
+                      onChange={change_afternoon_holiday}
+                      checked={holiday.is_afternoon}
+                      style={{ padding: 0, paddingRight: '2px' }}
+                      size="small"
+                    />
+                  }
+                  label={
+                    <span
+                      style={{
+                        fontSize: '0.4rem',
+                        color: '#333',
+                        fontWeight: 'bold',
+                      }}>
+                      午後診療
+                    </span>
+                  }
+                />
+                <div>
+                  <select
+                    onChange={afternoon_start_holiday}
+                    disabled={!holiday.is_afternoon}
+                    style={{ fontSize: '.4rem' }}>
+                    {timeItem(holiday.afternoon_start)}
+                  </select>
+                  ~
+                  <select
+                    onChange={afternoon_end_holiday}
+                    disabled={!holiday.is_afternoon}
+                    style={{ fontSize: '.4rem' }}>
+                    {timeItem(holiday.afternoon_end)}
+                  </select>
+                </div>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       )}

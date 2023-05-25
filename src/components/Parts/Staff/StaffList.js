@@ -9,7 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 
-import InboxIcon from '@mui/icons-material/Inbox'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 import { Button } from '@mui/material'
 const StaffList = props => {
@@ -26,6 +26,8 @@ const StaffList = props => {
     setPriority,
     listSelect,
     setListSelect,
+    setTreatCheckList,
+    staffChecks,
   } = props
   const edit = id => {
     const target = staff.filter(e => e.id === id)
@@ -38,6 +40,7 @@ const StaffList = props => {
     setDisplayOrder(target[0].display_order)
     setPriority(target[0].priority)
     setStaffColor(target[0].color_id)
+    setTreatCheckList(staffChecks[id])
   }
   const clear = () => {
     setListSelect(0)
@@ -50,6 +53,7 @@ const StaffList = props => {
     setDisplayOrder('')
     setPriority('')
     setStaffColor(1)
+    setTreatCheckList([])
   }
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -63,7 +67,7 @@ const StaffList = props => {
                   selected={listSelect === data.id}
                   onClick={() => setListSelect(data.id)}>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <AccountCircleIcon />
                   </ListItemIcon>
                   <ListItemText primary={data.nick_name} />
                 </ListItemButton>

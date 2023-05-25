@@ -19,6 +19,7 @@ const Index = () => {
   const [businessStart, setBusinessStart] = useState('')
   const [businessEnd, setBusinessEnd] = useState('')
   const [success, setSuccess] = useState('')
+  const [dataFetch, setDataFetch] = useState(false)
   const businessStartChange = event => {
     setBusinessStart(event.target.value)
   }
@@ -38,12 +39,19 @@ const Index = () => {
     return items
   }
   const [closed, setClosed] = useState(null)
+  const [holiday, setHoliday] = useState(null)
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/basic_information')
       setClosed(res?.data.basic_information.closed || null)
-      setBusinessStart(res?.data.basic_information.business_start.slice(0, -3))
-      setBusinessEnd(res?.data.basic_information.business_end.slice(0, -3))
+      setHoliday(res.data.holiday.holiday)
+      setBusinessStart(
+        res.data.basic_information?.business_start?.slice(0, -3) || '',
+      )
+      setBusinessEnd(
+        res.data.basic_information?.business_end?.slice(0, -3) || '',
+      )
+      setDataFetch(true)
     })()
   }, [])
 
@@ -53,6 +61,7 @@ const Index = () => {
         businessStart,
         businessEnd,
         closed,
+        holiday,
       }
       const res = await axios.post(
         '/api/manages/basic_information/update',
@@ -85,41 +94,48 @@ const Index = () => {
           </Alert>
         </Stack>
       )}
-      <Grid container spacing={2}>
-        <Grid item xs={2}>
-          <Typography variant="item" className="item">
-            診療時間
-          </Typography>
+      {dataFetch && (
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Typography variant="item" className="item">
+              診療時間
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <FormControl sx={{ m: 1, minWidth: 120, mr: 6 }} size="small">
+              <InputLabel>開始時間</InputLabel>
+              <Select
+                value={businessStart}
+                label="終了時間"
+                onChange={businessStartChange}>
+                {timeItem()}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel>終了時間</InputLabel>
+              <Select
+                value={businessEnd}
+                label="終了時間"
+                onChange={businessEndChange}>
+                {timeItem()}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="item" className="item">
+              休診日設定
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <ClosedSettingTable
+              data={closed}
+              holiday={holiday}
+              setHoliday={setHoliday}
+              setData={setClosed}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={10}>
-          <FormControl sx={{ m: 1, minWidth: 120, mr: 6 }} size="small">
-            <InputLabel>開始時間</InputLabel>
-            <Select
-              value={businessStart}
-              label="終了時間"
-              onChange={businessStartChange}>
-              {timeItem()}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel>終了時間</InputLabel>
-            <Select
-              value={businessEnd}
-              label="終了時間"
-              onChange={businessEndChange}>
-              {timeItem()}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography variant="item" className="item">
-            休診日設定
-          </Typography>
-        </Grid>
-        <Grid item xs={10}>
-          <ClosedSettingTable data={closed} setData={setClosed} />
-        </Grid>
-      </Grid>
+      )}
       <div className="button-area">
         <Button variant="contained" onClick={submit}>
           更新

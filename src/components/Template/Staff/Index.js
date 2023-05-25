@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 
-import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
+import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
+
 import CheckIcon from '@mui/icons-material/Check'
 
 import StaffList from '@/components/Parts/Staff/StaffList'
@@ -23,10 +24,13 @@ const Index = () => {
   const [firstNameKana, setFirstNameKana] = useState('')
   const [nickName, setNickName] = useState('')
   const [displayOrder, setDisplayOrder] = useState('')
+  const [dentalTreat, setDentalTreat] = useState(null)
   const [priority, setPriority] = useState('')
   const [listSelect, setListSelect] = useState(0)
   const [success, setSuccess] = useState('')
   const [destory, setDestory] = useState('')
+  const [staffChecks, setStaffChecks] = useState(null)
+  const [treatCheckList, setTreatCheckList] = useState([])
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/staff')
@@ -36,6 +40,8 @@ const Index = () => {
       setDisplayOrder(res.data.staff.length + 1)
       setStaffNumber(res.data.staff.length + 1)
       setDataFetch(true)
+      setDentalTreat(res.data.treat)
+      setStaffChecks(res.data.staff_checks)
     })()
   }, [])
   const regist = async sendData => {
@@ -51,6 +57,8 @@ const Index = () => {
     setStaffColor(1)
     setStaff(res.data.staff)
     setListSelect(0)
+    setStaffChecks(res.data.staff_checks)
+    setTreatCheckList([])
     sendData.staffId
       ? setSuccess('スタッフ情報を更新しました。')
       : setSuccess('スタッフを登録しました。')
@@ -120,6 +128,8 @@ const Index = () => {
               setPriority={setPriority}
               listSelect={listSelect}
               setListSelect={setListSelect}
+              setTreatCheckList={setTreatCheckList}
+              staffChecks={staffChecks}
             />
           </Grid>
           <Grid item xs={8}>
@@ -152,6 +162,10 @@ const Index = () => {
               listSelect={listSelect}
               success={success}
               deleteStaff={deleteStaff}
+              dentalTreat={dentalTreat}
+              staffChecks={staffChecks}
+              treatCheckList={treatCheckList}
+              setTreatCheckList={setTreatCheckList}
             />
           </Grid>
         </Grid>

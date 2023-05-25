@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+
 import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
@@ -11,7 +15,6 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import FormHelperText from '@mui/material/FormHelperText'
 const StaffRegist = props => {
   const {
     colors,
@@ -39,8 +42,10 @@ const StaffRegist = props => {
     setPriority,
     listSelect,
     staff,
-    success,
     deleteStaff,
+    dentalTreat,
+    treatCheckList,
+    setTreatCheckList,
   } = props
   const [genderErr, setGenderErr] = useState('')
   const [staffNumberErr, setStaffNumberErr] = useState('')
@@ -78,6 +83,11 @@ const StaffRegist = props => {
   }
   const nickNameChange = e => {
     setNickName(e.target.value)
+  }
+  const check = id => {
+    treatCheckList.includes(id)
+      ? setTreatCheckList(treatCheckList.filter((l, _) => l !== id))
+      : setTreatCheckList([...treatCheckList, id])
   }
   const submit = () => {
     let isError = false
@@ -131,6 +141,7 @@ const StaffRegist = props => {
       priority: priority ? priority : autoNum,
       nickName: nickName ? nickName : firstName,
       staffId: listSelect,
+      treatCheckList,
     }
     regist(sendData)
   }
@@ -335,6 +346,28 @@ const StaffRegist = props => {
           InputProps={{ inputProps: { min: 1, max: staff.length + 1 } }}
           helperText="※未入力の場合はシステムが自動で設定します。"
         />
+      </Grid>
+      <Grid item xs={2} className="b-gray p1">
+        <Typography variant="bold">対応できる診療項目</Typography>
+      </Grid>
+      <Grid item xs={10} className="b-gray p1">
+        <FormGroup style={{ flexDirection: 'row' }}>
+          <Grid container>
+            {dentalTreat?.map((data, index) => (
+              <Grid item key={index} xs={6}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={treatCheckList.includes(data.category.id)}
+                      onChange={() => check(data.category.id)}
+                    />
+                  }
+                  label={data.category.title}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </FormGroup>
       </Grid>
       <div className="button-area">
         <Button variant="contained" onClick={submit}>
