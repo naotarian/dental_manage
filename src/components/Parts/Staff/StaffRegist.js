@@ -376,9 +376,14 @@ const StaffRegist = props => {
                     />
                   ) : (
                     <div>
-                      <Link href="/medical_treatment">
-                        <a class="bold">診療項目設定</a>
-                      </Link>
+                      <Typography>
+                        診療項目が設定されていません。
+                        <br />
+                        <Link href="/medical_treatment">
+                          <a class="bold">こちら</a>
+                        </Link>
+                        から、診療項目の設定を行ってください。
+                      </Typography>
                     </div>
                   )}
                 </Grid>

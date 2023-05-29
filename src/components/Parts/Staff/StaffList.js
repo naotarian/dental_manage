@@ -84,7 +84,7 @@ const StaffList = props => {
           ) : (
             <div className="p1">
               <Typography variant="bold">
-                スタッフが登録されていません。
+                スタッフ情報が登録されていません。
               </Typography>
             </div>
           )}
