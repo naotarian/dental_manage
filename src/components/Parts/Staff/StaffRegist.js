@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Link from 'next/link'
+
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -15,6 +15,8 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+
+import Link from 'next/link'
 const StaffRegist = props => {
   const {
     colors,
@@ -380,7 +382,7 @@ const StaffRegist = props => {
                         診療項目が設定されていません。
                         <br />
                         <Link href="/medical_treatment">
-                          <a class="bold">こちら</a>
+                          <a className="bold">こちら</a>
                         </Link>
                         から、診療項目の設定を行ってください。
                       </Typography>

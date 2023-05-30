@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 
 import Alert from '@mui/material/Alert'
-import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
 
 import CheckIcon from '@mui/icons-material/Check'
 
-import axios from '@/lib/axios'
-import ShiftTable from '@/components/Parts/Shift/ShiftTable'
 import { Typography } from '@mui/material'
+
+import ShiftTable from '@/components/Parts/Shift/ShiftTable'
+import axios from '@/lib/axios'
 
 const Index = () => {
   const [dataFetch, setDataFetch] = useState(false)
@@ -17,9 +18,27 @@ const Index = () => {
   const [month, setMonth] = useState(false)
   const [year, setYear] = useState(false)
   const [shifts, setShifts] = useState(null)
+  const [checkList, setCheckList] = useState([])
+  const [open, setOpen] = useState(false)
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
+  const [allChecked, setAllChecked] = useState([])
+
+  const startChange = event => {
+    setStartTime(event.target.value)
+  }
+  const endChange = event => {
+    setEndTime(event.target.value)
+  }
+  const handleClose = () => {
+    setOpen(false)
+    setStartTime('')
+    setEndTime('')
+  }
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/shift')
+      console.log(res.data.days)
       setDays(res.data.days)
       setStaff(res.data?.staff)
       setMonth(res.data.target_month)
@@ -40,10 +59,55 @@ const Index = () => {
       const target_month =
         dt.getFullYear() + '-' + ('00' + (dt.getMonth() + 1)).slice(-2)
       const res = await axios.get(`/api/manages/shift/${target_month}`)
+      setCheckList([])
       setDays(res.data.days)
       setStaff(res.data?.staff)
       setMonth(res.data.target_month)
       setYear(res.data.target_year)
+      setShifts(res.data.shifts)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  const shiftRegist = () => {
+    console.log(checkList)
+    setOpen(true)
+  }
+  const shiftSubmit = async () => {
+    try {
+      console.log(shifts)
+      const tmp = shifts
+      checkList.map((data, index) => {
+        console.log(tmp)
+        const some = tmp[data.day].some(
+          b => b.date === data.day && b.staff_id === data.id,
+        )
+        if (some) {
+          tmp[data.day].map((d, _) => {
+            d.start_time = startTime
+            d.end_time = endTime
+          })
+        } else {
+          tmp[data.day].push({
+            staff_id: data.id,
+            start_time: startTime,
+            end_time: endTime,
+            date: data.day,
+          })
+        }
+      })
+      const res = await axios.post('/api/manages/shift/update', {
+        shifts: tmp,
+        date: year + '-' + ('00' + month).slice(-2),
+      })
+      setCheckList([])
+      setDays(res.data.days)
+      setStaff(res.data?.staff)
+      setMonth(res.data.target_month)
+      setYear(res.data.target_year)
+      setShifts(res.data.shifts)
+      setDataFetch(true)
+      setOpen(false)
     } catch (e) {
       console.log(e)
     }
@@ -63,7 +127,34 @@ const Index = () => {
               翌月
             </Button>
           </div>
-          <ShiftTable staff={staff} days={days} shifts={shifts} />
+          <div className="text-right mb1">
+            <Button
+              variant="contained"
+              onClick={shiftRegist}
+              disabled={checkList.length === 0}>
+              登録
+            </Button>
+          </div>
+          <ShiftTable
+            staff={staff}
+            days={days}
+            shifts={shifts}
+            setShifts={setShifts}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+            setStartTime={setStartTime}
+            setEndTime={setEndTime}
+            startTime={startTime}
+            endTime={endTime}
+            startChange={startChange}
+            endChange={endChange}
+            shiftSubmit={shiftSubmit}
+            allChecked={allChecked}
+            setAllChecked={setAllChecked}
+          />
         </>
       )}
     </>
