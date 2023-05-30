@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
-import Grid from '@mui/material/Grid'
-
-import CheckIcon from '@mui/icons-material/Check'
 
 import { Typography } from '@mui/material'
 
@@ -38,7 +34,6 @@ const Index = () => {
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/shift')
-      console.log(res.data.days)
       setDays(res.data.days)
       setStaff(res.data?.staff)
       setMonth(res.data.target_month)
@@ -69,16 +64,34 @@ const Index = () => {
       console.log(e)
     }
   }
+  const shiftDelete = async () => {
+    var result = window.confirm('選択中のシフト情報を削除してよろしいですか？')
+    if (!result) return
+    try {
+      const res = await axios.post('/api/manages/shift/delete', {
+        data: checkList,
+        date: year + '-' + ('00' + month).slice(-2),
+      })
+      setCheckList([])
+      setDays(res.data.days)
+      setStaff(res.data?.staff)
+      setMonth(res.data.target_month)
+      setYear(res.data.target_year)
+      setShifts(res.data.shifts)
+      setStartTime('')
+      setEndTime('')
+      setDataFetch(true)
+    } catch (e) {
+      console.log(e)
+    }
+  }
   const shiftRegist = () => {
-    console.log(checkList)
     setOpen(true)
   }
   const shiftSubmit = async () => {
     try {
-      console.log(shifts)
       const tmp = shifts
-      checkList.map((data, index) => {
-        console.log(tmp)
+      checkList.map((data, _) => {
         const some = tmp[data.day].some(
           b => b.date === data.day && b.staff_id === data.id,
         )
@@ -106,6 +119,8 @@ const Index = () => {
       setMonth(res.data.target_month)
       setYear(res.data.target_year)
       setShifts(res.data.shifts)
+      setStartTime('')
+      setEndTime('')
       setDataFetch(true)
       setOpen(false)
     } catch (e) {
@@ -127,12 +142,19 @@ const Index = () => {
               翌月
             </Button>
           </div>
-          <div className="text-right mb1">
+          <div className="justify-right mb1 flex gap-40">
             <Button
               variant="contained"
               onClick={shiftRegist}
               disabled={checkList.length === 0}>
               登録
+            </Button>
+            <Button
+              variant="contained"
+              onClick={shiftDelete}
+              color="error"
+              disabled={checkList.length === 0}>
+              削除
             </Button>
           </div>
           <ShiftTable

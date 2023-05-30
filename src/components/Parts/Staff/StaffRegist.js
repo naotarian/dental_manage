@@ -115,7 +115,12 @@ const StaffRegist = props => {
       isError = true
       setFirstNameKanaErr('名(カナ)を入力してください。')
     } else {
-      setFirstNameKanaErr('')
+      if (firstNameKana.match(/[^ァ-ヶー　]+$/)) {
+        setFirstNameKanaErr('名(カナ)は全角カタカナで入力してください。')
+        isError = true
+      } else {
+        setFirstNameKanaErr('')
+      }
     }
     if (!lastName) {
       isError = true
@@ -127,7 +132,12 @@ const StaffRegist = props => {
       isError = true
       setLastNameKanaErr('姓(カナ)を入力してください。')
     } else {
-      setLastNameKanaErr('')
+      if (lastNameKana.match(/[^ァ-ヶー　]+$/)) {
+        setLastNameKanaErr('姓(カナ)は全角カタカナで入力してください。')
+        isError = true
+      } else {
+        setLastNameKanaErr('')
+      }
     }
     if (isError) return
     const autoNum = listSelect ? staff.length : staff.length + 1

@@ -105,14 +105,16 @@ const ShiftTable = props => {
     }
     if (e.target.value) {
       Object.values(days).map((data, _) => {
-        const some = checkList.some(
-          b => b.day === data.day_format && b.id === id,
-        )
-        if (!some) {
-          setCheckList(prevState => [
-            ...prevState,
-            { id: id, day: data.day_format },
-          ])
+        if (!data.closed) {
+          const some = checkList.some(
+            b => b.day === data.day_format && b.id === id,
+          )
+          if (!some) {
+            setCheckList(prevState => [
+              ...prevState,
+              { id: id, day: data.day_format },
+            ])
+          }
         }
       })
       setAllChecked(prevState => [...prevState, id])

@@ -93,6 +93,9 @@ a {
 .justify-center {
   justify-content: center;
 }
+.justify-right {
+  justify-content: right;
+}
 .gap-10 {
   gap: 10px;
 }
