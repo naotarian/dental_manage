@@ -120,6 +120,19 @@ const ShiftTable = props => {
       setAllChecked(prevState => [...prevState, id])
     }
   }
+  const checkAllFlag = id => {
+    // let flag = true
+    // checkList.map((data, index) => {
+    //   if(data.id === id)
+    //   console.log(data)
+    // })
+    let flag = true
+    Object.keys(days).map((data, _) => {
+      if (!days[data].closed)
+        if (!checkList.some(b => b.id === id && b.day === data)) flag = false
+    })
+    return flag
+  }
   return (
     <>
       {staff.length > 0 ? (
@@ -139,7 +152,7 @@ const ShiftTable = props => {
                         control={
                           <Checkbox
                             onChange={e => allCheck(e, data.id)}
-                            checked={checkList.some(b => b.id === data.id)}
+                            checked={checkAllFlag(data.id)}
                           />
                         }
                         label="一括チェック"
