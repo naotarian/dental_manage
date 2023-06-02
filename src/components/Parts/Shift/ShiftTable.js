@@ -121,11 +121,6 @@ const ShiftTable = props => {
     }
   }
   const checkAllFlag = id => {
-    // let flag = true
-    // checkList.map((data, index) => {
-    //   if(data.id === id)
-    //   console.log(data)
-    // })
     let flag = true
     Object.keys(days).map((data, _) => {
       if (!days[data].closed)

@@ -374,7 +374,6 @@ const StaffRegist = props => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          // checked={treatCheckList.includes(data.category.id)}
                           onChange={e => {
                             const ids = dentalTreat.map(
                               obj => obj.medical_children_category_id,

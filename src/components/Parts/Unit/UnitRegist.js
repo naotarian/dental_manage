@@ -15,6 +15,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import Link from 'next/link'
 const UnitRegist = props => {
   const {
     selectUnit,
@@ -23,7 +24,20 @@ const UnitRegist = props => {
     submit,
     listSelect,
     deleteUnit,
+    nameErr,
+    displayNameErr,
+    displayOrderErr,
+    priorityErr,
+    dentalTreat,
+    treatCheckList,
+    setTreatCheckList,
+    unitTreat,
   } = props
+  const check = id => {
+    treatCheckList.includes(id)
+      ? setTreatCheckList(treatCheckList.filter((l, _) => l !== id))
+      : setTreatCheckList([...treatCheckList, id])
+  }
   return (
     <Grid
       container
@@ -55,14 +69,14 @@ const UnitRegist = props => {
           label="ユニット名"
           size="small"
           value={selectUnit.name}
+          error={nameErr.length > 0}
+          helperText={nameErr}
           onChange={e => {
             setSelectUnit(prevState => ({
               ...prevState,
               name: e.target.value,
             }))
           }}
-          // error={staffNumberErr.length > 0}
-          // helperText={staffNumberErr}
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
@@ -81,8 +95,8 @@ const UnitRegist = props => {
               display_name: e.target.value,
             }))
           }}
-          // error={staffNumberErr.length > 0}
-          // helperText={staffNumberErr}
+          error={displayNameErr.length > 0}
+          helperText={displayNameErr}
         />
       </Grid>
 
@@ -106,7 +120,12 @@ const UnitRegist = props => {
             shrink: true,
           }}
           InputProps={{ inputProps: { min: 1, max: units.length + 1 } }}
-          helperText="※未入力の場合はシステムが自動で設定します。"
+          helperText={
+            displayOrderErr
+              ? displayOrderErr
+              : '※未入力の場合はシステムが自動で設定します。'
+          }
+          error={displayOrderErr.length > 0}
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
@@ -129,7 +148,12 @@ const UnitRegist = props => {
             shrink: true,
           }}
           InputProps={{ inputProps: { min: 1, max: units.length + 1 } }}
-          helperText="※未入力の場合はシステムが自動で設定します。"
+          error={priorityErr.length > 0}
+          helperText={
+            priorityErr
+              ? priorityErr
+              : '※未入力の場合はシステムが自動で設定します。'
+          }
         />
       </Grid>
       <Grid item xs={2} className="b-gray p1">
@@ -137,7 +161,6 @@ const UnitRegist = props => {
       </Grid>
       <Grid item xs={10} className="b-gray p1">
         <FormControl>
-          {/* <FormControl error={genderErr.length > 0}> */}
           <RadioGroup
             onChange={e => {
               setSelectUnit(prevState => ({
@@ -157,13 +180,59 @@ const UnitRegist = props => {
               label="稼働停止中"
             />
           </RadioGroup>
-          {/* <FormHelperText color="error">{genderErr}</FormHelperText> */}
         </FormControl>
       </Grid>
       <Grid item xs={2} className="b-gray p1">
         <Typography variant="bold">対応できる診療項目</Typography>
       </Grid>
-      <Grid item xs={10} className="b-gray p1"></Grid>
+      <Grid item xs={10} className="b-gray p1">
+        <FormGroup style={{ flexDirection: 'row' }}>
+          <Grid container>
+            <Grid item xs={12}>
+              {dentalTreat.length > 0 ? (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={e => {
+                        const ids = dentalTreat.map(
+                          obj => obj.medical_children_category_id,
+                        )
+                        if (e.target.checked) setTreatCheckList(ids)
+                        if (!e.target.checked) setTreatCheckList([])
+                      }}
+                    />
+                  }
+                  label="全てチェック"
+                />
+              ) : (
+                <div>
+                  <Typography>
+                    診療項目が設定されていません。
+                    <br />
+                    <Link href="/medical_treatment">
+                      <a className="bold">こちら</a>
+                    </Link>
+                    から、診療項目の設定を行ってください。
+                  </Typography>
+                </div>
+              )}
+            </Grid>
+            {dentalTreat?.map((data, index) => (
+              <Grid item key={index} xs={6}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={treatCheckList.includes(data.category.id)}
+                      onChange={() => check(data.category.id)}
+                    />
+                  }
+                  label={data.category.title}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </FormGroup>
+      </Grid>
       <div className="button-area">
         <Button variant="contained" onClick={submit}>
           登録

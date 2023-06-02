@@ -7,10 +7,17 @@ import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import CheckIcon from '@mui/icons-material/Check'
 const Index = () => {
-  const [dataFetch, setDataFetch] = useState([])
+  const [dataFetch, setDataFetch] = useState(false)
   const [units, setUnits] = useState([])
   const [result, setResult] = useState('')
   const [deleteAlert, setDeleteAlert] = useState('')
+  const [nameErr, setNameErr] = useState('')
+  const [displayNameErr, setDisplayNameErr] = useState('')
+  const [displayOrderErr, setDisplayOrderErr] = useState('')
+  const [priorityErr, setPriorityErr] = useState('')
+  const [dentalTreat, setDentalTreat] = useState([])
+  const [treatCheckList, setTreatCheckList] = useState([])
+  const [unitTreat, setUnitTreat] = useState([])
   const [selectUnit, setSelectUnit] = useState({
     name: '',
     display_name: '',
@@ -22,7 +29,9 @@ const Index = () => {
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/unit')
+      setUnitTreat(res.data.unit_treats)
       setUnits(res.data.units)
+      setDentalTreat(res.data.treat)
       setSelectUnit(prevState => ({
         ...prevState,
         display_order: res.data.units.length + 1,
@@ -32,18 +41,44 @@ const Index = () => {
     })()
   }, [])
   const submit = async () => {
+    let isError = false
+    if (!selectUnit.name) {
+      isError = true
+      setNameErr('ユニット名を入力してください。')
+    } else {
+      setNameErr('')
+    }
+    if (!selectUnit.display_name) {
+      isError = true
+      setDisplayNameErr('ユニット表示名を入力してください。')
+    } else {
+      setDisplayNameErr('')
+    }
+    if (!selectUnit.display_order) {
+      isError = true
+      setDisplayOrderErr('表示順序を入力してください。')
+    } else {
+      setDisplayOrderErr('')
+    }
+    if (!selectUnit.priority) {
+      isError = true
+      setPriorityErr('予約優先度を入力してください。')
+    } else {
+      setPriorityErr('')
+    }
+    if (isError) return
     const kind = listSelect ? 'edit' : 'new'
     const sendData = {
       kind: kind,
       data: selectUnit,
+      treatCheckList: treatCheckList,
       id: kind === 'edit' ? listSelect : '',
     }
     const res = await axios.post('/api/manages/unit/update', sendData)
     if (res.data.is_change) {
       setUnits(res.data.units)
-      setResult('更新が完了しました。')
     }
-    if (!res.data.is_change) setResult('変更がありませんでした。')
+    setResult('更新が完了しました。')
     setSelectUnit({
       name: '',
       display_name: '',
@@ -52,6 +87,9 @@ const Index = () => {
       status: 'S',
     })
     setListSelect(0)
+    setDentalTreat(res.data.treat)
+    setTreatCheckList([])
+    setUnitTreat(res.data.unit_treats)
     window.scrollTo({ top: 0, behavior: 'smooth' })
     window.setTimeout(function () {
       setResult('')
@@ -108,6 +146,8 @@ const Index = () => {
               listSelect={listSelect}
               setListSelect={setListSelect}
               setSelectUnit={setSelectUnit}
+              setTreatCheckList={setTreatCheckList}
+              unitTreat={unitTreat}
             />
           </Grid>
           <Grid item xs={8}>
@@ -118,6 +158,14 @@ const Index = () => {
               submit={submit}
               listSelect={listSelect}
               deleteUnit={deleteUnit}
+              nameErr={nameErr}
+              displayNameErr={displayNameErr}
+              displayOrderErr={displayOrderErr}
+              priorityErr={priorityErr}
+              dentalTreat={dentalTreat}
+              treatCheckList={treatCheckList}
+              setTreatCheckList={setTreatCheckList}
+              unitTreat={unitTreat}
             />
           </Grid>
         </Grid>

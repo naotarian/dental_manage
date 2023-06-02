@@ -10,7 +10,14 @@ import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 const UnitList = props => {
-  const { units, listSelect, setListSelect, setSelectUnit } = props
+  const {
+    units,
+    listSelect,
+    setListSelect,
+    setSelectUnit,
+    setTreatCheckList,
+    unitTreat,
+  } = props
   const edit = id => {
     const target = units.filter(e => e.id === id)
     setSelectUnit(prevState => ({
@@ -21,6 +28,7 @@ const UnitList = props => {
       priority: target[0].priority,
       status: target[0].status,
     }))
+    setTreatCheckList(unitTreat[id])
     setListSelect(id)
   }
   const clear = () => {
@@ -32,6 +40,7 @@ const UnitList = props => {
       status: 'S',
     })
     setListSelect('')
+    setTreatCheckList([])
   }
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -53,7 +62,7 @@ const UnitList = props => {
           ))}
           {units.length > 0 ? (
             <div className="mt1 text-r mr1">
-              <Button variant="outlined" onClick={clear}>
+              <Button variant="outlined" disabled={!listSelect} onClick={clear}>
                 クリア
               </Button>
             </div>
