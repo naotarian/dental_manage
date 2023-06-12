@@ -79,6 +79,30 @@ select {
 .wi100 {
   width: 100%;
 }
+.wi30 {
+  width: 30%;
+}
+.wi40 {
+  width: 40%;
+}
+.wi45 {
+  width: 45%;
+}
+.wi50 {
+  width: 50%;
+}
+.wi100 {
+  width: 100%;
+}
+.wi-100 {
+  width: 100px;
+}
+.wi-200 {
+  width: 200px;
+}
+.wi-300 {
+  width: 300px;
+}
 
 .rounded-md {
   border-radius: 0.375rem;
