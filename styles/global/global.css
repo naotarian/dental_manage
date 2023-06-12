@@ -158,8 +158,14 @@ a {
 .bg-white {
   background-color: #fff;
 }
+.p0 {
+  padding: 0 !important;
+}
 .p1 {
-  padding: 1rem;
+  padding: 1rem !important;
+}
+.px1 {
+  padding: 0 1rem !important;
 }
 .mt1 {
   margin-top: 1rem;
@@ -209,4 +215,11 @@ a {
 }
 .bottom-0 {
   bottom: 0;
+}
+@media screen and (max-width: 767px) {
+  .content-wrap-1000 {
+    width: 100%;
+    margin: 4rem auto;
+    padding: 0 1rem;
+  }
 }

@@ -49,7 +49,7 @@ export const config = {
       sub: [
         {
           name: '予約一覧',
-          path: '/reserves',
+          path: '/reserve/list',
           icon: <FormatListBulletedIcon />,
         },
         { name: '予約状況', path: '/reserve_state' },
