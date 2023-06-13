@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import functions from '@/functions/getPrefCode'
 
 //components
 import Alert from '@mui/material/Alert'
@@ -18,6 +19,10 @@ const AdminRegister = () => {
     middleware: 'guest',
     redirectIfAuthenticated: '/',
   })
+  useEffect((data, index) => {
+    const test = functions.getPrefCode(2310055)
+    console.log(test)
+  }, [])
 
   const [dentalName, setDentalName] = useState('')
   const [tel, setTel] = useState('')
@@ -36,6 +41,8 @@ const AdminRegister = () => {
   const [errors, setErrors] = useState(null)
 
   const submitForm = event => {
+    const prefectureCode = functions.getPrefCode(postNumber)
+    console.log(prefectureCode)
     event.preventDefault()
     register({
       dentalName,
@@ -53,6 +60,7 @@ const AdminRegister = () => {
       address3,
       address4,
       setErrors,
+      prefectureCode,
     })
   }
 

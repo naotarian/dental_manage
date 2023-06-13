@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -8,7 +9,6 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 const UnitList = props => {
   const {
     units,
@@ -53,7 +53,7 @@ const UnitList = props => {
                   className="focus-green"
                   selected={listSelect === data.id}
                   onClick={() => edit(data.id)}>
-                  <ListItemIcon></ListItemIcon>
+                  <ListItemIcon />
                   <ListItemText primary={data.display_name} />
                 </ListItemButton>
               </ListItem>
