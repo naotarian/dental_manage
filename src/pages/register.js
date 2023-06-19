@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import functions from '@/functions/getPrefCode'
 
 //components
 import Alert from '@mui/material/Alert'
@@ -8,6 +7,7 @@ import AlertTitle from '@mui/material/AlertTitle'
 import styled from 'styled-components'
 
 import SignUp from '@/components/Auth/SignUp'
+import functions from '@/functions/getPrefCode'
 import { useAuth } from '@/hooks/auth'
 const StyledAlert = styled(Alert)`
   width: 80%;
