@@ -1,13 +1,14 @@
-import SettingsIcon from '@mui/icons-material/Settings'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
-import MapIcon from '@mui/icons-material/Map'
-import WebAssetIcon from '@mui/icons-material/WebAsset'
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline'
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
-import WorkHistoryIcon from '@mui/icons-material/WorkHistory'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
+import ManageSearchIcon from '@mui/icons-material/ManageSearch'
+import MapIcon from '@mui/icons-material/Map'
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline'
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
+import SettingsIcon from '@mui/icons-material/Settings'
 import VaccinesIcon from '@mui/icons-material/Vaccines'
+import WebAssetIcon from '@mui/icons-material/WebAsset'
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory'
 export const config = {
   sidebarMenu: [
     {
@@ -34,6 +35,12 @@ export const config = {
       sub: [],
       path: '/portal',
       icon: <WebAssetIcon />,
+    },
+    {
+      name: '検索設定',
+      sub: [],
+      icon: <ManageSearchIcon />,
+      path: '/search',
     },
     {
       name: 'スタッフ管理',
