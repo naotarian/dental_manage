@@ -8,11 +8,15 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 import ReserveTable from '@/components/Parts/Reserve/List/ReserveTable'
+// import useUpdateEffect from '@/hooks/useUpdateEffect'
 import axios from '@/lib/axios'
 
 const Index = () => {
   const [dataFetch, setDataFetch] = useState(false)
   const [list, setList] = useState([])
+  const [todayOnly, setTodayOnly] = useState(false)
+  const [past, setPast] = useState(false)
+  const isFirstRender = useRef(true)
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/reserve/list')
@@ -20,12 +24,21 @@ const Index = () => {
       setDataFetch(true)
     })()
   }, [])
+  useEffect(() => {
+    ;(async () => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false
+        return
+      }
+      const sendData = { todayOnly, past }
+      const res = await axios.post('/api/manages/reserve/listSearch', sendData)
+      setList(res.data.list)
+      setDataFetch(true)
+    })()
+  }, [todayOnly, past])
   const todayOnlyChange = async e => {
-    const sendData = { todayOnly: e.target.checked }
-    const res = await axios.post('/api/manages/reserve/listSearch', sendData)
-    console.log(res.data.list)
-    setList(res.data.list)
-    setDataFetch(true)
+    setTodayOnly(e.target.checked)
+    setPast(false)
   }
   return (
     <>
@@ -34,11 +47,19 @@ const Index = () => {
           <Alert severity="info" className="mb1">
             予約番号をクリックすると、詳細画面に遷移します。
           </Alert>
-          <FormGroup className="mb1">
+          <FormGroup className="mb1" style={{ flexDirection: 'row' }}>
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox checked={todayOnly} />}
               label="今日の予約のみ"
               onChange={todayOnlyChange}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={past} />}
+              label="過去の予約も表示"
+              onChange={e => {
+                setTodayOnly(false)
+                setPast(e.target.checked)
+              }}
             />
           </FormGroup>
           {list.length > 0 ? (

@@ -5,7 +5,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
@@ -149,7 +148,7 @@ const Index = props => {
             />
           </Grid>
           <Grid item xs={4} md={2} lg={2} className="p1 b-gray">
-            <Typography variant="bold">予約終了時間</Typography>
+            <Typography variant="bold">患者氏名(フリガナ)</Typography>
           </Grid>
           <Grid item xs={8} md={4} lg={4} className="p1 b-gray">
             <TextField

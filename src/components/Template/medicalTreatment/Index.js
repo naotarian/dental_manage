@@ -34,10 +34,7 @@ const Index = () => {
   }
   const submit = async () => {
     const sendData = { checkList }
-    const res = await axios.post(
-      '/api/manages/medical_treatment/update',
-      sendData,
-    )
+    await axios.post('/api/manages/medical_treatment/update', sendData)
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setSuccess('診療内容情報を更新しました。')
     window.setTimeout(function () {

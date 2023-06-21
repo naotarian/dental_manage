@@ -27,7 +27,7 @@ const detail = () => {
   const update = async () => {
     try {
       const sendData = dental
-      const res = await axios.post('/api/manages/reserve/update', sendData)
+      await axios.post('/api/manages/reserve/update', sendData)
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
       window.setTimeout(function () {
