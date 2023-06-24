@@ -59,7 +59,7 @@ export const config = {
           path: '/reserve/list',
           icon: <FormatListBulletedIcon />,
         },
-        { name: '予約状況', path: '/reserve_state' },
+        { name: '予約状況', path: '/reserve/calendar' },
       ],
     },
     {

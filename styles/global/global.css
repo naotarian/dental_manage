@@ -182,6 +182,24 @@ a {
 .bg-white {
   background-color: #fff;
 }
+.bg-red {
+  background-color: #e60000;
+}
+.bg-madgray {
+  background-color: #808080;
+}
+.bg-gray {
+  background-color: #ddd;
+}
+.color-white {
+  color: #fff;
+}
+.fs-08 {
+  font-size: .8rem;
+}
+.fs-1 {
+  font-size: 1rem;
+}
 .p0 {
   padding: 0 !important;
 }
