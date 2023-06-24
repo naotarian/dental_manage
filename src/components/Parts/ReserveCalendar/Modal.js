@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
@@ -11,6 +12,7 @@ import Modal from '@mui/material/Modal'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Select from '@mui/material/Select'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
@@ -39,6 +41,7 @@ const ReserveCalendarModal = props => {
     categories,
     setReserveData,
     submit,
+    errors,
   } = props
   const handleClose = () => setModalOpen(false)
   const required = () => {
@@ -51,6 +54,37 @@ const ReserveCalendarModal = props => {
   const reserveDataChange = (e, name) => {
     setReserveData(prevState => ({ ...prevState, [name]: e.target.value }))
   }
+  const close = () => {
+    setModalOpen(false)
+    setReserveData({
+      reserveDay: '',
+      category: '1',
+      lastName: '',
+      lastNameKana: '',
+      firstName: '',
+      firstNameKana: '',
+      mobileTel: '',
+      fixedTel: '',
+      email: '',
+      birth: '',
+      examination: '1',
+      remark: '',
+      gender: '1',
+      startTime: '',
+      endTime: '',
+    })
+  }
+  const err = () => {
+    if (errors) {
+      return errors.map((data, i) => {
+        return (
+          <Stack sx={{ width: '100%' }} key={i} spacing={2} className="mb-05">
+            <Alert severity="error">{data}</Alert>
+          </Stack>
+        )
+      })
+    }
+  }
   return (
     <div>
       <Modal
@@ -59,6 +93,7 @@ const ReserveCalendarModal = props => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
+          {err()}
           <Typography variant="largeBold" component="h2">
             予約登録
           </Typography>
@@ -164,6 +199,15 @@ const ReserveCalendarModal = props => {
                 adapterLocale={ja}>
                 <TimePicker
                   label="予約開始時間"
+                  value={
+                    (0, 0, 0, 7, 30)
+                    // reserveData.reserveStart
+                    //   ? Number(reserveData.reserveStart.slice(0, 2))
+                    //   : 0,
+                    // reserveData.reserveStart
+                    //   ? Number(reserveData.reserveStart.slice(-2))
+                    //   : 0
+                  }
                   onChange={e => {
                     setReserveData(prevState => ({
                       ...prevState,
@@ -180,6 +224,19 @@ const ReserveCalendarModal = props => {
                 adapterLocale={ja}>
                 <TimePicker
                   label="予約終了時間"
+                  value={
+                    new Date(
+                      0,
+                      0,
+                      0,
+                      reserveData.reserveEnd
+                        ? Number(reserveData.reserveEnd.slice(0, 2))
+                        : 0,
+                      reserveData.reserveEnd
+                        ? Number(reserveData.reserveEnd.slice(-2))
+                        : 0,
+                    )
+                  }
                   minTime={new Date(0, 0, 0, 8)}
                   onChange={e => {
                     setReserveData(prevState => ({
@@ -294,7 +351,9 @@ const ReserveCalendarModal = props => {
               </FormControl>
             </Grid>
             <Grid item xs={12} className="justify-center gap-20 flex mt1">
-              <Button variant="outlined">閉じる</Button>
+              <Button variant="outlined" onClick={close}>
+                閉じる
+              </Button>
               <Button variant="contained" onClick={submit}>
                 登録
               </Button>

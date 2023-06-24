@@ -10,6 +10,7 @@ import ReserveCalendarModal from '@/components/Parts/ReserveCalendar/Modal'
 import axios from '@/lib/axios'
 const Index = () => {
   const [reserves, setReserves] = useState([])
+  const [errors, setErrors] = useState([])
   const [staffs, setStaffs] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [reserveData, setReserveData] = useState({
@@ -28,22 +29,31 @@ const Index = () => {
     gender: '1',
     startTime: '',
     endTime: '',
+    reserveStart: '',
+    reserveEnd: '',
   })
   const [categories, setCategories] = useState(null)
   const handleDateSelect = selectionInfo => {
     console.log('selectionInfo: ', selectionInfo) // 選択した範囲の情報をconsoleに出力
     const reserveDay = dayjs(selectionInfo.startStr).format('YYYY-MM-DD')
-    setReserveData(prevState => ({ ...prevState, reserveDay: reserveDay }))
-    // const calendarApi = selectionInfo.view.calendar
-    setReserves(prevState => [
+    const reserveStart = dayjs(selectionInfo.startStr).format('HH:mm')
+    const reserveEnd = dayjs(selectionInfo.endStr).format('HH:mm')
+    setReserveData(prevState => ({
       ...prevState,
-      {
-        resourceId: selectionInfo.resource.id,
-        title: '虫歯',
-        start: selectionInfo.startStr,
-        end: selectionInfo.endStr,
-      },
-    ])
+      reserveDay: reserveDay,
+      reserveStart: reserveStart,
+      reserveEnd: reserveEnd,
+    }))
+    // const calendarApi = selectionInfo.view.calendar
+    // setReserves(prevState => [
+    //   ...prevState,
+    //   {
+    //     resourceId: selectionInfo.resource.id,
+    //     title: '虫歯',
+    //     start: selectionInfo.startStr,
+    //     end: selectionInfo.endStr,
+    //   },
+    // ])
     setModalOpen(true)
     // calendarApi.unselect() // 選択した部分の選択を解除
   }
@@ -56,8 +66,16 @@ const Index = () => {
       setReserves(res.data.reserves)
     })()
   }, [])
-  const submit = () => {
-    console.log(reserveData)
+  const submit = async () => {
+    try {
+      const sendData = reserveData
+      const res = await axios.post(
+        '/api/manages/reserve_calendar/regist',
+        sendData,
+      )
+    } catch (e) {
+      setErrors(e.response.data.errors)
+    }
   }
   return (
     <>
@@ -69,6 +87,7 @@ const Index = () => {
           categories={categories}
           setReserveData={setReserveData}
           submit={submit}
+          errors={errors}
         />
       )}
 

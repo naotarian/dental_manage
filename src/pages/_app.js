@@ -1,5 +1,5 @@
-import '../../styles/global/global.css'
 import '../../styles/global/space.css'
+import '../../styles/global/global.css'
 import React from 'react'
 
 import { ThemeProvider } from '@mui/material/styles'
