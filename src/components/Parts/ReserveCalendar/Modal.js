@@ -1,12 +1,10 @@
-import { useState } from 'react'
-
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/Grid'
+import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Modal from '@mui/material/Modal'
 import Radio from '@mui/material/Radio'
@@ -20,7 +18,6 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import ja from 'date-fns/locale/ja'
-import dayjs from 'dayjs'
 
 const style = {
   position: 'absolute',
@@ -42,6 +39,7 @@ const ReserveCalendarModal = props => {
     setReserveData,
     submit,
     errors,
+    units,
   } = props
   const handleClose = () => setModalOpen(false)
   const required = () => {
@@ -85,6 +83,39 @@ const ReserveCalendarModal = props => {
       })
     }
   }
+  const yearSelectSet = () => {
+    return [...Array(100)].map((_, i) => {
+      return (
+        <MenuItem value={1923 + i} key={i}>
+          {1923 + i}年
+        </MenuItem>
+      )
+    })
+  }
+  const monthSelectSet = () => {
+    return [...Array(12)].map((_, i) => {
+      return (
+        <MenuItem value={i + 1} key={i}>
+          {i + 1}月
+        </MenuItem>
+      )
+    })
+  }
+  const daySelectSet = () => {
+    if (!reserveData.birthYear || !reserveData.birthMonth) return
+    let datesOfYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    const datesOfFebruary = isLeapYear(reserveData.birthYear) ? 29 : 28
+    datesOfYear = [31, datesOfFebruary, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    return [...Array(datesOfYear[reserveData.birthMonth - 1])].map((_, i) => {
+      return (
+        <MenuItem value={i + 1} key={i}>
+          {i + 1}日
+        </MenuItem>
+      )
+    })
+  }
+  const isLeapYear = year =>
+    (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
   return (
     <div>
       <Modal
@@ -98,7 +129,7 @@ const ReserveCalendarModal = props => {
             予約登録
           </Typography>
           <Grid container spacing={2} className="mt1">
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">患者姓</Typography>
               {nullable()}
             </Grid>
@@ -111,7 +142,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'lastName')}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">患者名</Typography>
               {nullable()}
             </Grid>
@@ -124,7 +155,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'firstName')}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">患者姓(カナ)</Typography>
               {required()}
             </Grid>
@@ -137,7 +168,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'lastNameKana')}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">患者名(カナ)</Typography>
               {nullable()}
             </Grid>
@@ -150,11 +181,11 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'firstNameKana')}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">予約日</Typography>
               {required()}
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={2}>
               <LocalizationProvider
                 dateAdapter={AdapterDateFns}
                 dateFormats={{ monthAndYear: 'yyyy年 MM月', year: 'yyyy年' }}
@@ -188,7 +219,7 @@ const ReserveCalendarModal = props => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">予約時間</Typography>
               {required()}
             </Grid>
@@ -200,13 +231,17 @@ const ReserveCalendarModal = props => {
                 <TimePicker
                   label="予約開始時間"
                   value={
-                    (0, 0, 0, 7, 30)
-                    // reserveData.reserveStart
-                    //   ? Number(reserveData.reserveStart.slice(0, 2))
-                    //   : 0,
-                    // reserveData.reserveStart
-                    //   ? Number(reserveData.reserveStart.slice(-2))
-                    //   : 0
+                    new Date(
+                      0,
+                      0,
+                      0,
+                      reserveData.reserveStart
+                        ? Number(reserveData.reserveStart.slice(0, 2))
+                        : 0,
+                      reserveData.reserveStart
+                        ? Number(reserveData.reserveStart.slice(-2))
+                        : 0,
+                    )
                   }
                   onChange={e => {
                     setReserveData(prevState => ({
@@ -217,7 +252,7 @@ const ReserveCalendarModal = props => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={3}>
               <LocalizationProvider
                 dateAdapter={AdapterDateFns}
                 ampm={false}
@@ -247,7 +282,7 @@ const ReserveCalendarModal = props => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">診療内容</Typography>
               {required()}
             </Grid>
@@ -265,7 +300,7 @@ const ReserveCalendarModal = props => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} className="text-c">
               <Typography variant="bold">連絡先メールアドレス</Typography>
               {nullable()}
             </Grid>
@@ -278,7 +313,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'email')}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">携帯電話番号</Typography>
               {nullable()}
             </Grid>
@@ -291,7 +326,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'mobileTel')}
               />
             </Grid>
-            <Grid item xs={2.1}>
+            <Grid item xs={2.1} className="text-c">
               <Typography variant="bold">固定電話番号</Typography>
               {nullable()}
             </Grid>
@@ -304,7 +339,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'fixedTel')}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">患者性別</Typography>
               {nullable()}
             </Grid>
@@ -327,7 +362,7 @@ const ReserveCalendarModal = props => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} className="text-c">
               <Typography variant="bold">当院での受診</Typography>
               {nullable()}
             </Grid>
@@ -349,6 +384,66 @@ const ReserveCalendarModal = props => {
                   />
                 </RadioGroup>
               </FormControl>
+            </Grid>
+            <Grid item xs={2} className="text-c">
+              <Typography variant="bold">使用ユニット</Typography>
+              {required()}
+            </Grid>
+            <Grid item xs={2}>
+              <FormControl fullWidth>
+                <Select
+                  size="small"
+                  value={reserveData.unit}
+                  onChange={e => reserveDataChange(e, 'unit')}>
+                  {units?.map((data, index) => (
+                    <MenuItem value={data.id} key={index}>
+                      {data.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={2} className="text-c">
+              <Typography variant="bold">生年月日</Typography>
+              {nullable()}
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={12}
+                  md={9}
+                  lg={9}
+                  className="gap-20 bl-gray-pc  bb-gray">
+                  <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
+                    <InputLabel>年</InputLabel>
+                    <Select
+                      value={reserveData.birthYear}
+                      label="年"
+                      onChange={e => reserveDataChange(e, 'birthYear')}>
+                      {yearSelectSet()}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
+                    <InputLabel>月</InputLabel>
+                    <Select
+                      value={reserveData.birthMonth}
+                      label="月"
+                      onChange={e => reserveDataChange(e, 'birthMonth')}>
+                      {monthSelectSet()}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
+                    <InputLabel>日</InputLabel>
+                    <Select
+                      value={reserveData.birthDay}
+                      label="日"
+                      onChange={e => reserveDataChange(e, 'birthDay')}>
+                      {daySelectSet()}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12} className="justify-center gap-20 flex mt1">
               <Button variant="outlined" onClick={close}>

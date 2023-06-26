@@ -12,10 +12,13 @@ const Index = () => {
   const [reserves, setReserves] = useState([])
   const [errors, setErrors] = useState([])
   const [staffs, setStaffs] = useState(null)
+  const [units, setUnits] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [reserveData, setReserveData] = useState({
     reserveDay: '',
     category: '1',
+    staff: '',
+    unit: '',
     lastName: '',
     lastNameKana: '',
     firstName: '',
@@ -31,6 +34,9 @@ const Index = () => {
     endTime: '',
     reserveStart: '',
     reserveEnd: '',
+    birthYear: '',
+    birthMonth: '',
+    birthDay: '',
   })
   const [categories, setCategories] = useState(null)
   const handleDateSelect = selectionInfo => {
@@ -40,20 +46,11 @@ const Index = () => {
     const reserveEnd = dayjs(selectionInfo.endStr).format('HH:mm')
     setReserveData(prevState => ({
       ...prevState,
+      staff: selectionInfo.resource.id,
       reserveDay: reserveDay,
       reserveStart: reserveStart,
       reserveEnd: reserveEnd,
     }))
-    // const calendarApi = selectionInfo.view.calendar
-    // setReserves(prevState => [
-    //   ...prevState,
-    //   {
-    //     resourceId: selectionInfo.resource.id,
-    //     title: '虫歯',
-    //     start: selectionInfo.startStr,
-    //     end: selectionInfo.endStr,
-    //   },
-    // ])
     setModalOpen(true)
     // calendarApi.unselect() // 選択した部分の選択を解除
   }
@@ -63,6 +60,7 @@ const Index = () => {
       // console.log(res.data.reserves)
       setCategories(res.data.categories)
       setStaffs(res.data.staffs)
+      setUnits(res.data.units)
       setReserves(res.data.reserves)
     })()
   }, [])
@@ -73,9 +71,42 @@ const Index = () => {
         '/api/manages/reserve_calendar/regist',
         sendData,
       )
+      setReserves(res.data.reserves)
+      setModalOpen(false)
+      setReserveData({
+        reserveDay: '',
+        category: '1',
+        lastName: '',
+        lastNameKana: '',
+        firstName: '',
+        firstNameKana: '',
+        mobileTel: '',
+        fixedTel: '',
+        email: '',
+        birth: '',
+        examination: '1',
+        remark: '',
+        gender: '1',
+        startTime: '',
+        endTime: '',
+      })
     } catch (e) {
       setErrors(e.response.data.errors)
     }
+  }
+  const selectEvent = data => {
+    console.log(data)
+    setReserveData(prevState => ({
+      ...prevState,
+      staff: data.staff_id,
+      reserveDay: data.reserve_date,
+      reserveStart: data.start_time.slice(0, -3),
+      reserveEnd: data.end_time.slice(0, -3),
+      unit: data.unit_id,
+      category: data.detail.category_id,
+      lastNameKana: data.detail.full_name_kana,
+    }))
+    setModalOpen(true)
   }
   return (
     <>
@@ -88,12 +119,14 @@ const Index = () => {
           setReserveData={setReserveData}
           submit={submit}
           errors={errors}
+          units={units}
         />
       )}
 
       <FullCalendar
         schedulerLicenseKey="XXX"
         plugins={[interactionPlugin, resourceTimegridPlugin, dayGridPlugin]}
+        nowIndicator={true}
         headerToolbar={{
           left: 'prev,today,next',
           center: 'title',
@@ -101,11 +134,7 @@ const Index = () => {
         }}
         locale="ja"
         allDayText="終日"
-        // titleFormat={{
-        //   month: 'yyyy年M月',
-        //   week: 'yyyy年M月d日{ ～ }{[yyyy年]}{[M月]d日}',
-        //   day: "yyyy年M月d日'('ddd')'",
-        // }}
+        slotDuration={'00:15'}
         buttonText={{
           prev: '<',
           next: '>',
@@ -133,9 +162,7 @@ const Index = () => {
         slotMaxTime="23:00:00" //時間の表示範囲end
         contentHeight={'auto'}
         events={reserves}
-        eventClick={e => {
-          console.log(e.event.title)
-        }}
+        eventClick={e => selectEvent(e.event.extendedProps)}
       />
     </>
   )
