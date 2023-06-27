@@ -18,7 +18,7 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import ja from 'date-fns/locale/ja'
-
+import dayjs from 'dayjs'
 const style = {
   position: 'absolute',
   top: '50%',
@@ -40,7 +40,10 @@ const ReserveCalendarModal = props => {
     submit,
     errors,
     units,
+    kind,
+    setKind,
   } = props
+  console.log(kind)
   const handleClose = () => setModalOpen(false)
   const required = () => {
     return <span className="px-05 color-white ml1 bg-red fs-08">必須</span>
@@ -54,7 +57,9 @@ const ReserveCalendarModal = props => {
   }
   const close = () => {
     setModalOpen(false)
+    setKind('new')
     setReserveData({
+      id: '',
       reserveDay: '',
       category: '1',
       lastName: '',
@@ -126,7 +131,7 @@ const ReserveCalendarModal = props => {
         <Box sx={style}>
           {err()}
           <Typography variant="largeBold" component="h2">
-            予約登録
+            {kind === 'new' ? <>予約登録</> : <>予約編集</>}
           </Typography>
           <Grid container spacing={2} className="mt1">
             <Grid item xs={2} className="text-c">
@@ -235,18 +240,18 @@ const ReserveCalendarModal = props => {
                       0,
                       0,
                       0,
-                      reserveData.reserveStart
-                        ? Number(reserveData.reserveStart.slice(0, 2))
+                      reserveData.startTime
+                        ? Number(reserveData.startTime.slice(0, 2))
                         : 0,
-                      reserveData.reserveStart
-                        ? Number(reserveData.reserveStart.slice(-2))
+                      reserveData.startTime
+                        ? Number(reserveData.startTime.slice(-2))
                         : 0,
                     )
                   }
                   onChange={e => {
                     setReserveData(prevState => ({
                       ...prevState,
-                      startTime: e,
+                      startTime: dayjs(e).format('HH:mm'),
                     }))
                   }}
                 />
@@ -264,11 +269,11 @@ const ReserveCalendarModal = props => {
                       0,
                       0,
                       0,
-                      reserveData.reserveEnd
-                        ? Number(reserveData.reserveEnd.slice(0, 2))
+                      reserveData.endTime
+                        ? Number(reserveData.endTime.slice(0, 2))
                         : 0,
-                      reserveData.reserveEnd
-                        ? Number(reserveData.reserveEnd.slice(-2))
+                      reserveData.endTime
+                        ? Number(reserveData.endTime.slice(-2))
                         : 0,
                     )
                   }
@@ -276,7 +281,7 @@ const ReserveCalendarModal = props => {
                   onChange={e => {
                     setReserveData(prevState => ({
                       ...prevState,
-                      endTime: e,
+                      endTime: dayjs(e).format('HH:mm'),
                     }))
                   }}
                 />
@@ -449,9 +454,15 @@ const ReserveCalendarModal = props => {
               <Button variant="outlined" onClick={close}>
                 閉じる
               </Button>
-              <Button variant="contained" onClick={submit}>
-                登録
-              </Button>
+              {kind === 'new' ? (
+                <Button variant="contained" onClick={submit}>
+                  登録
+                </Button>
+              ) : (
+                <Button variant="contained" onClick={submit}>
+                  更新
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Box>

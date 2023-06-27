@@ -268,3 +268,15 @@ a {
     padding: 0 1rem;
   }
 }
+td.fc-timegrid-slot.fc-timegrid-slot-label{
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+td.fc-timegrid-slot.fc-timegrid-slot-lane.fc-timegrid-slot-minor{
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+td.fc-timegrid-slot.fc-timegrid-slot-lane{
+  font-size: 0.7rem;
+  font-weight: bold;
+}

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
+import FullCalendar from '@fullcalendar/react'
 import resourceTimegridPlugin from '@fullcalendar/resource-timegrid'
 import dayjs from 'dayjs'
 
@@ -15,6 +15,7 @@ const Index = () => {
   const [units, setUnits] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [reserveData, setReserveData] = useState({
+    id: '',
     reserveDay: '',
     category: '1',
     staff: '',
@@ -39,6 +40,7 @@ const Index = () => {
     birthDay: '',
   })
   const [categories, setCategories] = useState(null)
+  const [kind, setKind] = useState('new')
   const handleDateSelect = selectionInfo => {
     console.log('selectionInfo: ', selectionInfo) // 選択した範囲の情報をconsoleに出力
     const reserveDay = dayjs(selectionInfo.startStr).format('YYYY-MM-DD')
@@ -48,8 +50,8 @@ const Index = () => {
       ...prevState,
       staff: selectionInfo.resource.id,
       reserveDay: reserveDay,
-      reserveStart: reserveStart,
-      reserveEnd: reserveEnd,
+      startTime: reserveStart,
+      endTime: reserveEnd,
     }))
     setModalOpen(true)
     // calendarApi.unselect() // 選択した部分の選択を解除
@@ -57,15 +59,16 @@ const Index = () => {
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/reserve_calendar/fetch')
-      // console.log(res.data.reserves)
       setCategories(res.data.categories)
       setStaffs(res.data.staffs)
       setUnits(res.data.units)
+      console.log(res.data.reserves)
       setReserves(res.data.reserves)
     })()
   }, [])
   const submit = async () => {
     try {
+      console.log(reserveData)
       const sendData = reserveData
       const res = await axios.post(
         '/api/manages/reserve_calendar/regist',
@@ -90,21 +93,43 @@ const Index = () => {
         startTime: '',
         endTime: '',
       })
+      setKind('new')
     } catch (e) {
       setErrors(e.response.data.errors)
     }
   }
   const selectEvent = data => {
     console.log(data)
+    let birthYear = ''
+    let birthMonth = ''
+    let birthDay = ''
+    if (data.detail.birth) {
+      const tmp = data.detail.birth.split('-')
+      birthYear = ('00', tmp[0])
+      birthMonth = ('00', tmp[1]).slice(-2)
+      birthDay = ('00', tmp[2]).slice(-2)
+    }
     setReserveData(prevState => ({
       ...prevState,
+      id: data.reserveId,
+      lastName: data.detail.last_name,
+      lastNameKana: data.detail.last_name_kana,
+      firstName: data.detail.first_name,
+      firstNameKana: data.detail.first_name_kana,
       staff: data.staff_id,
       reserveDay: data.reserve_date,
-      reserveStart: data.start_time.slice(0, -3),
-      reserveEnd: data.end_time.slice(0, -3),
+      startTime: data.start_time.slice(0, -3),
+      endTime: data.end_time.slice(0, -3),
       unit: data.unit_id,
       category: data.detail.category_id,
-      lastNameKana: data.detail.full_name_kana,
+      email: data.detail.email,
+      examination: data.detail.examination,
+      mobileTel: data.detail.mobile_tel,
+      fixedTel: data.detail.fixed_tel,
+      gender: data.detail.gender,
+      birthYear: birthYear,
+      birthMonth: birthMonth,
+      birthDay: birthDay,
     }))
     setModalOpen(true)
   }
@@ -120,6 +145,8 @@ const Index = () => {
           submit={submit}
           errors={errors}
           units={units}
+          kind={kind}
+          setKind={setKind}
         />
       )}
 
@@ -133,6 +160,7 @@ const Index = () => {
           right: 'resourceTimeGridDay,resourceTimeGridWeek,dayGridMonth',
         }}
         locale="ja"
+        contentHeight={'650px'}
         allDayText="終日"
         slotDuration={'00:15'}
         buttonText={{
@@ -160,7 +188,6 @@ const Index = () => {
         }}
         slotMinTime="06:00:00" //時間の表示範囲start
         slotMaxTime="23:00:00" //時間の表示範囲end
-        contentHeight={'auto'}
         events={reserves}
         eventClick={e => selectEvent(e.event.extendedProps)}
       />
