@@ -243,6 +243,9 @@ a {
 .text-c {
   text-align: center;
 }
+.text-l {
+  text-align: left;
+}
 .relative {
   position: relative;
 }

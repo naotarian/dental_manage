@@ -42,8 +42,9 @@ const ReserveCalendarModal = props => {
     units,
     kind,
     setKind,
+    staffs,
   } = props
-  console.log(kind)
+  console.log(staffs)
   const handleClose = () => setModalOpen(false)
   const required = () => {
     return <span className="px-05 color-white ml1 bg-red fs-08">必須</span>
@@ -134,7 +135,7 @@ const ReserveCalendarModal = props => {
             {kind === 'new' ? <>予約登録</> : <>予約編集</>}
           </Typography>
           <Grid container spacing={2} className="mt1">
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">患者姓</Typography>
               {nullable()}
             </Grid>
@@ -147,7 +148,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'lastName')}
               />
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">患者名</Typography>
               {nullable()}
             </Grid>
@@ -160,7 +161,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'firstName')}
               />
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">患者姓(カナ)</Typography>
               {required()}
             </Grid>
@@ -173,7 +174,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'lastNameKana')}
               />
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">患者名(カナ)</Typography>
               {nullable()}
             </Grid>
@@ -186,11 +187,11 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'firstNameKana')}
               />
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">予約日</Typography>
               {required()}
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <LocalizationProvider
                 dateAdapter={AdapterDateFns}
                 dateFormats={{ monthAndYear: 'yyyy年 MM月', year: 'yyyy年' }}
@@ -224,11 +225,12 @@ const ReserveCalendarModal = props => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={6} />
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">予約時間</Typography>
               {required()}
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <LocalizationProvider
                 dateAdapter={AdapterDateFns}
                 ampm={false}
@@ -257,7 +259,7 @@ const ReserveCalendarModal = props => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <LocalizationProvider
                 dateAdapter={AdapterDateFns}
                 ampm={false}
@@ -287,11 +289,12 @@ const ReserveCalendarModal = props => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} />
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">診療内容</Typography>
               {required()}
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <FormControl fullWidth>
                 <Select
                   size="small"
@@ -305,8 +308,12 @@ const ReserveCalendarModal = props => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={3} className="text-c">
-              <Typography variant="bold">連絡先メールアドレス</Typography>
+            <Grid item xs={2} className="text-l">
+              <Typography variant="bold">
+                連絡先
+                <br />
+                メールアドレス
+              </Typography>
               {nullable()}
             </Grid>
             <Grid item xs={4}>
@@ -318,7 +325,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'email')}
               />
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">携帯電話番号</Typography>
               {nullable()}
             </Grid>
@@ -331,11 +338,11 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'mobileTel')}
               />
             </Grid>
-            <Grid item xs={2.1} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">固定電話番号</Typography>
               {nullable()}
             </Grid>
-            <Grid item xs={3.9}>
+            <Grid item xs={4}>
               <TextField
                 label="固定電話番号"
                 size="small"
@@ -344,7 +351,7 @@ const ReserveCalendarModal = props => {
                 onChange={e => reserveDataChange(e, 'fixedTel')}
               />
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">患者性別</Typography>
               {nullable()}
             </Grid>
@@ -367,7 +374,7 @@ const ReserveCalendarModal = props => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">当院での受診</Typography>
               {nullable()}
             </Grid>
@@ -390,11 +397,29 @@ const ReserveCalendarModal = props => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
+              <Typography variant="bold">対応スタッフ</Typography>
+              {required()}
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <Select
+                  size="small"
+                  value={reserveData.staff}
+                  onChange={e => reserveDataChange(e, 'staff')}>
+                  {staffs?.map((data, index) => (
+                    <MenuItem value={data.id} key={index}>
+                      {data.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">使用ユニット</Typography>
               {required()}
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <FormControl fullWidth>
                 <Select
                   size="small"
@@ -408,11 +433,11 @@ const ReserveCalendarModal = props => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={2} className="text-c">
+            <Grid item xs={2} className="text-l">
               <Typography variant="bold">生年月日</Typography>
               {nullable()}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={10}>
               <Grid container>
                 <Grid
                   item
@@ -423,6 +448,7 @@ const ReserveCalendarModal = props => {
                   <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
                     <InputLabel>年</InputLabel>
                     <Select
+                      style={{ minWidth: '100px' }}
                       value={reserveData.birthYear}
                       label="年"
                       onChange={e => reserveDataChange(e, 'birthYear')}>
@@ -432,6 +458,7 @@ const ReserveCalendarModal = props => {
                   <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
                     <InputLabel>月</InputLabel>
                     <Select
+                      style={{ minWidth: '100px' }}
                       value={reserveData.birthMonth}
                       label="月"
                       onChange={e => reserveDataChange(e, 'birthMonth')}>
@@ -441,6 +468,7 @@ const ReserveCalendarModal = props => {
                   <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
                     <InputLabel>日</InputLabel>
                     <Select
+                      style={{ minWidth: '100px' }}
                       value={reserveData.birthDay}
                       label="日"
                       onChange={e => reserveDataChange(e, 'birthDay')}>

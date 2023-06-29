@@ -46,12 +46,13 @@ const Index = () => {
     const reserveDay = dayjs(selectionInfo.startStr).format('YYYY-MM-DD')
     const reserveStart = dayjs(selectionInfo.startStr).format('HH:mm')
     const reserveEnd = dayjs(selectionInfo.endStr).format('HH:mm')
+    console.log(reserveStart)
     setReserveData(prevState => ({
       ...prevState,
-      staff: selectionInfo.resource.id,
+      staff: selectionInfo.resource?.id,
       reserveDay: reserveDay,
-      startTime: reserveStart,
-      endTime: reserveEnd,
+      startTime: reserveStart === '00:00' ? '10:00' : reserveStart,
+      endTime: reserveEnd === '00:00' ? '10:30' : reserveEnd,
     }))
     setModalOpen(true)
     // calendarApi.unselect() // 選択した部分の選択を解除
@@ -62,13 +63,11 @@ const Index = () => {
       setCategories(res.data.categories)
       setStaffs(res.data.staffs)
       setUnits(res.data.units)
-      console.log(res.data.reserves)
       setReserves(res.data.reserves)
     })()
   }, [])
   const submit = async () => {
     try {
-      console.log(reserveData)
       const sendData = reserveData
       const res = await axios.post(
         '/api/manages/reserve_calendar/regist',
@@ -77,6 +76,7 @@ const Index = () => {
       setReserves(res.data.reserves)
       setModalOpen(false)
       setReserveData({
+        id: '',
         reserveDay: '',
         category: '1',
         lastName: '',
@@ -92,14 +92,18 @@ const Index = () => {
         gender: '1',
         startTime: '',
         endTime: '',
+        staff: '',
+        birthYear: '',
+        birthMonth: '',
+        birthDay: '',
       })
       setKind('new')
+      setErrors([])
     } catch (e) {
       setErrors(e.response.data.errors)
     }
   }
   const selectEvent = data => {
-    console.log(data)
     let birthYear = ''
     let birthMonth = ''
     let birthDay = ''
@@ -133,6 +137,27 @@ const Index = () => {
     }))
     setModalOpen(true)
   }
+  const eventDrag = async e => {
+    console.log(e.event.startStr)
+    console.log(e.event.endStr)
+    let staffId = ''
+    if (e.newResource) staffId = e.newResource.id
+    // let target = reserves.filter(
+    //   reserve => reserve.id === e.event.extendedProps.reserveId,
+    // )
+    const reserveId = e.event.extendedProps.reserveId
+    const sendData = {
+      reserveId: reserveId,
+      staffId: staffId,
+      reserveDay: dayjs(e.event.startStr).format('YYYY-MM-DD'),
+      startTime: dayjs(e.event.startStr).format('HH:mm'),
+      endTime: dayjs(e.event.endStr).format('HH:mm'),
+    }
+    // const staffId =
+    const res = await axios.post('/api/manages/reserve_calendar/drag', sendData)
+    setReserves(res.data.reserves)
+    console.log(sendData)
+  }
   return (
     <>
       {reserveData && (
@@ -145,6 +170,7 @@ const Index = () => {
           submit={submit}
           errors={errors}
           units={units}
+          staffs={staffs}
           kind={kind}
           setKind={setKind}
         />
@@ -190,6 +216,11 @@ const Index = () => {
         slotMaxTime="23:00:00" //時間の表示範囲end
         events={reserves}
         eventClick={e => selectEvent(e.event.extendedProps)}
+        eventDrop={e => eventDrag(e)}
+        // eventDrop={e => {
+        //   console.log(reserves)
+        //   console.log(e.event.extendedProps)
+        // }}
       />
     </>
   )
