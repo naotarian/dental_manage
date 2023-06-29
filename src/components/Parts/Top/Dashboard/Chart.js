@@ -31,6 +31,7 @@ export default function Chart(props) {
           <Tooltip />
           <Legend />
           <Bar dataKey="予約件数" fill="#1976d2" />
+          <Bar dataKey="キャンセル数" fill="#e60000" />
         </BarChart>
       )}
     </>

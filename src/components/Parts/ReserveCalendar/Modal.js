@@ -44,7 +44,6 @@ const ReserveCalendarModal = props => {
     setKind,
     staffs,
   } = props
-  console.log(staffs)
   const handleClose = () => setModalOpen(false)
   const required = () => {
     return <span className="px-05 color-white ml1 bg-red fs-08">必須</span>

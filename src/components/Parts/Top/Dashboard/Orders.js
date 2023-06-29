@@ -32,7 +32,7 @@ export default function Orders(props) {
                 <TableCell>時間</TableCell>
                 <TableCell>診療内容</TableCell>
                 <TableCell>診察券番号</TableCell>
-                <TableCell align="right">Sale Amount</TableCell>
+                <TableCell />
               </TableRow>
             </TableHead>
             <TableBody>
