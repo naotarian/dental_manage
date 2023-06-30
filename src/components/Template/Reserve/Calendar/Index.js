@@ -7,6 +7,7 @@ import resourceTimegridPlugin from '@fullcalendar/resource-timegrid'
 import dayjs from 'dayjs'
 
 import ReserveCalendarModal from '@/components/Parts/ReserveCalendar/Modal'
+import SelectPatientRegistration from '@/components/Parts/ReserveCalendar/SelectPatientRegistration'
 import axios from '@/lib/axios'
 const Index = () => {
   const [reserves, setReserves] = useState([])
@@ -38,6 +39,7 @@ const Index = () => {
     birthYear: '',
     birthMonth: '',
     birthDay: '',
+    patientRegistration: '',
   })
   const [categories, setCategories] = useState(null)
   const [kind, setKind] = useState('new')
@@ -46,7 +48,6 @@ const Index = () => {
     const reserveDay = dayjs(selectionInfo.startStr).format('YYYY-MM-DD')
     const reserveStart = dayjs(selectionInfo.startStr).format('HH:mm')
     const reserveEnd = dayjs(selectionInfo.endStr).format('HH:mm')
-    console.log(reserveStart)
     setReserveData(prevState => ({
       ...prevState,
       staff: selectionInfo.resource?.id,
@@ -64,6 +65,7 @@ const Index = () => {
       setStaffs(res.data.staffs)
       setUnits(res.data.units)
       setReserves(res.data.reserves)
+      console.log(res.data)
     })()
   }, [])
   const submit = async () => {
@@ -96,6 +98,7 @@ const Index = () => {
         birthYear: '',
         birthMonth: '',
         birthDay: '',
+        patientRegistration: '',
       })
       setKind('new')
       setErrors([])
@@ -134,17 +137,13 @@ const Index = () => {
       birthYear: birthYear,
       birthMonth: birthMonth,
       birthDay: birthDay,
+      patientRegistration: data.patient_registration,
     }))
     setModalOpen(true)
   }
   const eventDrag = async e => {
-    console.log(e.event.startStr)
-    console.log(e.event.endStr)
     let staffId = ''
     if (e.newResource) staffId = e.newResource.id
-    // let target = reserves.filter(
-    //   reserve => reserve.id === e.event.extendedProps.reserveId,
-    // )
     const reserveId = e.event.extendedProps.reserveId
     const sendData = {
       reserveId: reserveId,
@@ -153,10 +152,8 @@ const Index = () => {
       startTime: dayjs(e.event.startStr).format('HH:mm'),
       endTime: dayjs(e.event.endStr).format('HH:mm'),
     }
-    // const staffId =
     const res = await axios.post('/api/manages/reserve_calendar/drag', sendData)
     setReserves(res.data.reserves)
-    console.log(sendData)
   }
   return (
     <>
@@ -175,7 +172,7 @@ const Index = () => {
           setKind={setKind}
         />
       )}
-
+      <SelectPatientRegistration />
       <FullCalendar
         schedulerLicenseKey="XXX"
         plugins={[interactionPlugin, resourceTimegridPlugin, dayGridPlugin]}

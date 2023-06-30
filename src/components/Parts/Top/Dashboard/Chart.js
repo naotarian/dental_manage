@@ -27,7 +27,7 @@ export default function Chart(props) {
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis allowDecimals={false} />
           <Tooltip />
           <Legend />
           <Bar dataKey="予約件数" fill="#1976d2" />

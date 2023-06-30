@@ -1,5 +1,10 @@
+import AddchartIcon from '@mui/icons-material/Addchart'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import BuildIcon from '@mui/icons-material/Build'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
+import EventSeatIcon from '@mui/icons-material/EventSeat'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import MapIcon from '@mui/icons-material/Map'
@@ -21,7 +26,7 @@ export const config = {
       name: '基本設定',
       icon: <SettingsIcon />,
       sub: [
-        { name: '基本情報', path: '/basic_information' },
+        { name: '基本情報', path: '/basic_information', icon: <BuildIcon /> },
         { name: 'アクセス', path: '/access', icon: <MapIcon /> },
         {
           name: '診療内容設定',
@@ -59,12 +64,23 @@ export const config = {
           path: '/reserve/list',
           icon: <FormatListBulletedIcon />,
         },
-        { name: '予約状況', path: '/reserve/calendar' },
+        {
+          name: '予約状況',
+          path: '/reserve/calendar',
+          icon: <CalendarMonthIcon />,
+        },
       ],
     },
     {
       name: '施設管理',
-      sub: [{ name: 'ユニット管理', path: '/units' }],
+      sub: [{ name: 'ユニット管理', path: '/units', icon: <EventSeatIcon /> }],
+      icon: <ApartmentIcon />,
+    },
+    {
+      name: '患者様情報管理',
+      sub: [],
+      path: '/',
+      icon: <AddchartIcon />,
     },
   ],
 }

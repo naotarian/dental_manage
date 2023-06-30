@@ -436,7 +436,7 @@ const ReserveCalendarModal = props => {
               <Typography variant="bold">生年月日</Typography>
               {nullable()}
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={6}>
               <Grid container>
                 <Grid
                   item
@@ -476,6 +476,20 @@ const ReserveCalendarModal = props => {
                   </FormControl>
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid item xs={4} className="text-l" />
+            <Grid item xs={2} className="text-l">
+              <Typography variant="bold">診察券番号</Typography>
+              {nullable()}
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="診察券番号"
+                size="small"
+                fullWidth
+                value={reserveData.patientRegistration}
+                onChange={e => reserveDataChange(e, 'patientRegistration')}
+              />
             </Grid>
             <Grid item xs={12} className="justify-center gap-20 flex mt1">
               <Button variant="outlined" onClick={close}>
