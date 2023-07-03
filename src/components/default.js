@@ -64,6 +64,15 @@ const theme = createTheme({
     button: {
       textTransform: 'none',
     },
+    caption: {
+      fontSize: 12,
+      fontWeight: 700,
+    },
+    captionRed: {
+      fontSize: 12,
+      fontWeight: 700,
+      fontColor: 'red',
+    },
   },
 })
 

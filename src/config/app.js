@@ -79,7 +79,7 @@ export const config = {
     {
       name: '患者様情報管理',
       sub: [],
-      path: '/',
+      path: '/patients',
       icon: <AddchartIcon />,
     },
   ],

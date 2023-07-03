@@ -12,11 +12,29 @@ import Typography from '@mui/material/Typography'
 
 import { useRouter } from 'next/router'
 
+import RegistModal from '@/components/Parts/Patient/RegistModal'
 import axios from '@/lib/axios'
 const Index = () => {
   const router = useRouter()
+  const [registModalOpen, setRegistModalOpen] = useState(false)
+  const [registed, setRegisted] = useState(false)
   const [patient, setPatient] = useState([])
   const [patientNotNumber, setPatientNotNumber] = useState([])
+  const [registData, setRegistData] = useState({
+    patientNumber: '',
+    lastName: '',
+    lastNameKana: '',
+    firstName: '',
+    firstNameKana: '',
+    mobileTel: '',
+    fixedTel: '',
+    email: '',
+    remark: '',
+    gender: '',
+    birthYear: '',
+    birthMonth: '',
+    birthDay: '',
+  })
   useEffect(() => {
     ;(async () => {
       const res = await axios.get('/api/manages/patient')
@@ -28,14 +46,18 @@ const Index = () => {
     console.log(id)
     router.push(`/patients/edit/${id}`)
   }
+  const handleOpen = () => setRegistModalOpen(true)
   return (
     <>
       {patient.length > 0 && (
         <>
-          <div className="mb1">
+          <div className="mb1 flex justify-space">
             <Typography variant="bold">
               診察券番号が設定されている患者様の一覧です。
             </Typography>
+            <Button variant="contained" onClick={handleOpen}>
+              新規登録
+            </Button>
           </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }}>
@@ -117,6 +139,16 @@ const Index = () => {
             </Table>
           </TableContainer>
         </>
+      )}
+      <RegistModal
+        registModalOpen={registModalOpen}
+        setRegistModalOpen={setRegistModalOpen}
+        registData={registData}
+        setRegistData={setRegistData}
+        setRegisted={setRegisted}
+      />
+      {patient.length == 0 && patientNotNumber.length == 0 && (
+        <Typography variant="h2">患者様情報はありません。</Typography>
       )}
     </>
   )

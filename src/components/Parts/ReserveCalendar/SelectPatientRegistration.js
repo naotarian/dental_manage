@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -13,11 +13,7 @@ const SelectPatientRegistration = () => {
   const [name, setName] = useState('')
   const searchPatient = async () => {
     const sendData = { name, patientNumber }
-    const res = await axios.post(
-      '/api/manages/reserve_calendar/search_patient',
-      sendData,
-    )
-    console.log(res)
+    await axios.post('/api/manages/reserve_calendar/search_patient', sendData)
   }
   return (
     <Box>

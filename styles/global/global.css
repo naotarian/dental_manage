@@ -283,3 +283,28 @@ td.fc-timegrid-slot.fc-timegrid-slot-lane{
   font-size: 0.7rem;
   font-weight: bold;
 }
+
+.btnRadio {
+  display: none;
+}
+.btnRadio:checked + label {
+  background: #027c7e; /* マウス選択時の背景色を指定する */
+  color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+.btnRadioLabel {
+  display: block; /* ブロックレベル要素化する */
+  float: left; /* 要素の左寄せ・回り込を指定する */
+  height: 45px; /* ボックスの高さを指定する */
+  padding-left: 5px; /* ボックス内左側の余白を指定する */
+  padding-right: 5px; /* ボックス内御右側の余白を指定する */
+  color: #333; /* フォントの色を指定 */
+  text-align: center; /* テキストのセンタリングを指定する */
+  line-height: 45px; /* 行の高さを指定する */
+  cursor: pointer; /* マウスカーソルの形（リンクカーソル）を指定する */
+  border: 1px solid #027c7e;
+  border-radius: 0;
+}
+.btnRadioLabel:hover {
+  background-color: #027c7e; /* マウスオーバー時の背景色を指定する */
+  color: white;
+}

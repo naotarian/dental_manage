@@ -17,7 +17,6 @@ const detail = () => {
     ;(async () => {
       if (!router.isReady) return
       const id = router.query.id
-      console.log(id)
       const res = await axios.post('/api/manages/patient/detail', { id })
       setDetail(res.data)
     })()
